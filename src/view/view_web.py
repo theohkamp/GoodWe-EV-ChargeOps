@@ -16,6 +16,7 @@ from formato import decimal, percentual, reais, sim_ou_nao
 from view import graficos
 
 # ----- CONSTANTES
+ARQUIVO_ESTILO = "src/view/estilo.css"
 PAGINAS = ("Início", "Painel do Gestor", "Interface do Morador", "Simulador de Rateio",
            "Sessão de Recarga", "Previsão de Demanda", "Síndico Virtual")
 ETAPAS_DO_FLUXO = (
@@ -29,6 +30,12 @@ ETAPAS_DO_FLUXO = (
 
 
 # ----- SUBALGORITMOS AUXILIARES
+def aplicar_estilo() -> None:
+    # carrega a folha de estilo com os ajustes para telas pequenas (celular)
+    with open(ARQUIVO_ESTILO, "r", encoding="utf-8") as arq:
+        st.markdown("<style>" + arq.read() + "</style>", unsafe_allow_html=True)
+
+
 def sem_formula(mensagem: str) -> str:
     # o Streamlit interpreta o que fica entre dois cifroes como formula matematica;
     # a barra invertida faz o "R$" aparecer como texto comum
@@ -177,21 +184,23 @@ def aba_consolidado(mes: str) -> None:
         colunas[2].metric("Faturado", reais(resumo["valor_faturado"]))
         colunas[3].metric("Pendente", reais(resumo["valor_pendente"]))
         st.markdown("**Consolidado mensal** (uma linha por unidade)")
-        mostrar_tabela(painel["consolidado"], [("fatura", "Fatura", "texto"), ("unidade", "Unidade", "texto"),
-                                               ("bloco", "Bloco", "texto"), ("sessoes", "Sessões", "texto"),
-                                               ("kwh", "kWh", "kwh"), ("tarifa", "Tarifa", "reais"),
-                                               ("taxa", "Taxa", "reais"), ("total", "Total", "reais"),
-                                               ("status", "Status", "texto"),
+        # as colunas mais importantes vem primeiro: no celular sao as que aparecem sem rolar
+        mostrar_tabela(painel["consolidado"], [("unidade", "Unidade", "texto"), ("total", "Total", "reais"),
+                                               ("status", "Status", "texto"), ("kwh", "kWh", "kwh"),
+                                               ("taxa", "Taxa", "reais"), ("tarifa", "Tarifa", "reais"),
+                                               ("sessoes", "Sessões", "texto"), ("fatura", "Fatura", "texto"),
+                                               ("bloco", "Bloco", "texto"),
                                                ("vencimento", "Vencimento", "texto")])
     else:
         previa = painel["previa"]
         colunas[2].metric("Total sem taxa", reais(controle_gestor.total_da_coluna(previa, "total_sem_taxa")))
         colunas[3].metric("Total com taxa", reais(controle_gestor.total_da_coluna(previa, "total_com_taxa")))
         st.markdown("**Prévia do mês**")
-        mostrar_tabela(previa, [("unidade", "Unidade", "texto"), ("bloco", "Bloco", "texto"),
-                                ("sessoes", "Sessões", "texto"), ("kwh", "kWh", "kwh"),
-                                ("total_sem_taxa", "Total sem taxa", "reais"),
-                                ("total_com_taxa", "Total com taxa", "reais")])
+        mostrar_tabela(previa, [("unidade", "Unidade", "texto"),
+                                ("total_sem_taxa", "Sem taxa", "reais"),
+                                ("total_com_taxa", "Com taxa", "reais"),
+                                ("kwh", "kWh", "kwh"), ("sessoes", "Sessões", "texto"),
+                                ("bloco", "Bloco", "texto")])
 
     mostrar_grafico(graficos.grafico_ranking(painel["ranking"], mes))
     for codigo in resumo["kwh_por_carregador"]:
@@ -304,9 +313,9 @@ def pagina_morador() -> None:
         st.error("Há fatura vencida. Os cartões da unidade estão bloqueados até o pagamento.")
 
     st.markdown("#### Sessões de recarga")
-    mostrar_tabela(painel["sessoes"], [("sessao", "Sessão", "texto"), ("inicio", "Início", "texto"),
-                                       ("fim", "Fim", "texto"), ("cartao", "Cartão", "texto"),
-                                       ("kwh", "kWh", "kwh"), ("valor", "Valor", "reais"),
+    mostrar_tabela(painel["sessoes"], [("inicio", "Início", "texto"), ("kwh", "kWh", "kwh"),
+                                       ("valor", "Valor", "reais"), ("cartao", "Cartão", "texto"),
+                                       ("fim", "Fim", "texto"), ("sessao", "Sessão", "texto"),
                                        ("interrompida", "Interrompida", "bool")])
 
     st.markdown("#### Fatura do mês")
@@ -466,8 +475,8 @@ def pagina_previsao() -> None:
         colunas = st.columns(4)
         colunas[0].metric("Modelo, por dia", percentual(limite["modelo_por_dia"], 1))
         colunas[1].metric("Teto do calendário", percentual(limite["teto_do_calendario"], 1))
-        colunas[2].metric("Sabendo as recargas do dia", percentual(limite["sabendo_as_recargas"], 1))
-        colunas[3].metric(f"Modelo, por semana ({limite['semanas_de_teste']} semanas)",
+        colunas[2].metric("Sabendo as recargas", percentual(limite["sabendo_as_recargas"], 1))
+        colunas[3].metric(f"Por semana ({limite['semanas_de_teste']} semanas)",
                           percentual(limite["modelo_por_semana"], 1))
         mostrar_grafico(graficos.grafico_limite_dos_dados(limite, meta))
         st.caption("Teto do calendário: média real de cada dia da semana, calculada com o histórico inteiro. "
@@ -543,10 +552,12 @@ def pagina_sindico() -> None:
 # ----- SUBALGORITMO PRINCIPAL
 def mostrar_aplicacao() -> None:
     st.set_page_config(page_title="EV ChargeOps", layout="wide")
+    aplicar_estilo()
     controle_sessao.preparar_sistema()
-    st.sidebar.title("EV ChargeOps")
-    st.sidebar.caption("GoodWe + FIAP | Enterprise Challenge 2026")
-    pagina = st.sidebar.radio("Navegação", PAGINAS)
+    st.caption("EV ChargeOps | GoodWe + FIAP | Enterprise Challenge 2026")
+    # menu no topo da pagina: no computador fica em uma linha e no celular as
+    # opcoes quebram de linha. Um menu lateral cobriria a tela do celular.
+    pagina = st.radio("Navegação", PAGINAS, horizontal=True, label_visibility="collapsed")
     match pagina:
         case "Início":
             pagina_inicio()

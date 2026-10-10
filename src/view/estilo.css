@@ -1,0 +1,40 @@
+/* EV ChargeOps - ajustes da interface web para telas pequenas (celular).
+   O Streamlit ja empilha as colunas em telas estreitas. Esta folha de estilo
+   so reduz margens e titulos e organiza os indicadores em duas colunas. */
+
+/* graficos: em telas grandes nao precisam ocupar a largura inteira */
+[data-testid="stImage"] img {
+    max-width: min(100%, 860px) !important;
+}
+
+@media (max-width: 640px) {
+
+    /* menos margem lateral, para o conteudo usar a largura da tela */
+    [data-testid="stMainBlockContainer"] {
+        padding: 3rem 1rem 2rem 1rem;
+    }
+
+    /* titulos menores: no celular o tamanho padrao ocupa tres linhas */
+    h1 { font-size: 1.7rem !important; }
+    h3 { font-size: 1.2rem !important; }
+    h4 { font-size: 1.1rem !important; }
+
+    /* linhas de indicadores: duas colunas em vez de uma por linha */
+    [data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    [data-testid="stHorizontalBlock"]:has([data-testid="stMetric"]) > [data-testid="stColumn"] {
+        min-width: calc(50% - 0.5rem) !important;
+        width: calc(50% - 0.5rem) !important;
+        flex: 1 1 calc(50% - 0.5rem) !important;
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 1.35rem !important;
+    }
+
+    /* menu de navegacao mais compacto */
+    [data-testid="stRadio"] label p {
+        font-size: 0.9rem;
+    }
+}

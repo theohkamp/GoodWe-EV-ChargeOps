@@ -11,11 +11,13 @@ COR_PRINCIPAL = "#0b5394"
 COR_DESTAQUE = "#d62728"
 COR_APOIO = "#7f7f7f"
 ROTULOS_DIAS = ("seg", "ter", "qua", "qui", "sex", "sáb", "dom")
+TAMANHO_DA_LETRA = 12                # letras maiores continuam legiveis no celular
 
 
 # ----- SUBALGORITMOS
 def nova_figura(titulo: str, rotulo_x: str, rotulo_y: str):
-    fig, ax = plt.subplots(figsize=(8, 4), dpi=120)
+    plt.rcParams.update({"font.size": TAMANHO_DA_LETRA})
+    fig, ax = plt.subplots(figsize=(8, 4.5), dpi=120)
     ax.set_title(titulo)
     ax.set_xlabel(rotulo_x)
     ax.set_ylabel(rotulo_y)

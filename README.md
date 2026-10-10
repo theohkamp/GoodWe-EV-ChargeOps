@@ -28,7 +28,7 @@ O protótipo cobre o fluxo completo de uma recarga em condomínio, do cartão RF
 - **Consolidado mensal, auditoria da fatura e bloqueio automático** dos cartões de quem tem fatura vencida.
 - **Previsão de demanda e risco de sobrecarga** do quadro elétrico, com sugestão de janela de recarga fora do pico.
 - **Síndico Virtual**, que responde em linguagem natural sobre consumo, cobranças e anomalias usando os dados do sistema.
-- **Duas interfaces** sobre as mesmas regras: painel web para gestor e morador, e menu de console.
+- **Duas interfaces** sobre as mesmas regras: painel web responsivo para gestor e morador, que funciona no computador e no celular, e menu de console.
 
 O carregador e o portal SEMS são simulados. Os dados do repositório são sintéticos e reproduzíveis: o gerador usa semente fixa, então a base sai igual em qualquer máquina.
 
@@ -250,7 +250,7 @@ Tecnologias: Python, pandas, NumPy, scikit-learn, matplotlib, Streamlit e a API 
 | Ingestão agendada do SEMS Portal | Export diário simulado e conciliação com erro absoluto e relativo | Sem credenciais da API do portal. A conciliação, que é o objetivo da integração, está implementada |
 | Prophet para séries temporais | Regressão linear e Ridge com variáveis de calendário e defasagem; regressão logística para o risco | Com quatro meses de histórico e padrão semanal, o modelo linear é interpretável e já atinge o teto de previsibilidade dos dados (seção 4.1). Modelos baseados em calendário, como o Prophet, tendem a esbarrar no mesmo teto |
 | Painel web do gestor | Interface web em Streamlit | Entrega o painel em Python, sem um front-end separado, com uma única base de código |
-| Aplicativo mobile do morador | Página do morador na interface web | A página abre no navegador do celular. O aplicativo nativo fica como evolução |
+| Aplicativo mobile do morador | Interface web responsiva, com a página do morador acessível pelo navegador do celular | A mesma interface se adapta à tela pequena: navegação no topo, indicadores em duas colunas e tabelas com as colunas principais primeiro. O aplicativo nativo fica como evolução |
 
 ### Plano de desenvolvimento, fase a fase
 
@@ -277,6 +277,7 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 ## 7. Decisões técnicas
 
 - **MVC com duas interfaces.** Telas, coordenação e regras ficam separadas. A mesma função de rateio atende a interface web e o console.
+- **Interface responsiva.** A navegação fica no topo da página, e uma folha de estilo (`src/view/estilo.css`) ajusta margens, títulos e indicadores em telas pequenas.
 - **Taxa administrativa por fechamento.** A Sprint 1 trata a taxa como opcional. A escolha é feita pelo gestor a cada fechamento, e a fatura registra a tarifa e a taxa aplicadas, o que mantém as faturas antigas auditáveis mesmo se a configuração mudar.
 - **Bloqueio conferido em três momentos.** Ao abrir o sistema, após cada pagamento e na autorização de cada sessão, para que o bloqueio não dependa de uma ação manual.
 - **Assistente ancorado em dados.** O Síndico Virtual não responde de memória: uma função consulta o sistema, e o modelo de linguagem só redige com o que recebeu. O modo simulado garante o funcionamento sem chave e sem internet.
@@ -313,6 +314,12 @@ Capturas da interface web:
 | Sessão de recarga, com as seis etapas e a curva de potência | [web_12_sessao_de_recarga.png](evidencias/web_12_sessao_de_recarga.png) |
 | Previsão de demanda | [web_13_previsao_de_demanda.png](evidencias/web_13_previsao_de_demanda.png) |
 | Síndico Virtual | [web_14_sindico_virtual.png](evidencias/web_14_sindico_virtual.png) |
+
+Interface no celular:
+
+| Início | Gestor: com taxa e sem taxa | Morador | Simulador de rateio |
+|---|---|---|---|
+| <img src="evidencias/mobile_01_inicio.png" width="190"> | <img src="evidencias/mobile_02_gestor_com_e_sem_taxa.png" width="190"> | <img src="evidencias/mobile_03_morador.png" width="190"> | <img src="evidencias/mobile_04_simulador_de_rateio.png" width="190"> |
 
 Gráficos: [consumo_diario.png](evidencias/consumo_diario.png), [curva_carga_horaria.png](evidencias/curva_carga_horaria.png), [previsao_vs_real.png](evidencias/previsao_vs_real.png), [residuos.png](evidencias/residuos.png), [previsao_7_dias.png](evidencias/previsao_7_dias.png), [limite_dos_dados.png](evidencias/limite_dos_dados.png), [ranking_unidades.png](evidencias/ranking_unidades.png) e [potencia_sessao.png](evidencias/potencia_sessao.png).
 
