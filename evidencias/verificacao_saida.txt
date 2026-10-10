@@ -1,0 +1,163 @@
+Recriando a base de demonstração...
+
+------------------------------------------------------------------------------
+1. FÓRMULA DO RATEIO: Fatura = soma(E_sessao x T) + Tx_admin
+------------------------------------------------------------------------------
+[OK] 120 kWh x R$ 0,95 sem taxa (exemplo da Sprint 1)
+        esperado: 114.0 | obtido: 114.0
+[OK] 12,4 kWh x R$ 0,95 + taxa de R$ 2,00 (exemplo do pitch)
+        esperado: 13.78 | obtido: 13.78
+[OK] 50 kWh: opção SEM taxa
+        esperado: 47.5 | obtido: 47.5
+[OK] 50 kWh: opção COM taxa
+        esperado: 49.5 | obtido: 49.5
+
+------------------------------------------------------------------------------
+2. REGISTROS DE EXEMPLO DO README DA SPRINT 1
+------------------------------------------------------------------------------
+[OK] sessão 5001: cartão
+        esperado: A1B2C3D4 | obtido: A1B2C3D4
+[OK] sessão 5001: carregador
+        esperado: GW-001 | obtido: GW-001
+[OK] sessão 5001: início
+        esperado: 2026-06-18 19:00 | obtido: 2026-06-18 19:00
+[OK] sessão 5001: fim
+        esperado: 2026-06-18 22:30 | obtido: 2026-06-18 22:30
+[OK] sessão 5001: energia (kWh)
+        esperado: 21.5 | obtido: 21.5
+[OK] cartão A1B2C3D4 pertence a
+        esperado: Apto 42 / Torre A | obtido: Apto 42 / Torre A
+[OK] fatura 9001: unidade e mês
+        esperado: 1 / 06-2026 | obtido: 1 / 06-2026
+[OK] fatura 9001: total_kwh
+        esperado: 120.0 | obtido: 120.0
+[OK] fatura 9001: total_value
+        esperado: 114.0 | obtido: 114.0
+[OK] fatura 9001 no fechamento: status
+        esperado: PENDING | obtido: PENDING
+
+------------------------------------------------------------------------------
+3. VÁRIOS CARTÕES NA MESMA UNIDADE
+------------------------------------------------------------------------------
+[OK] cartões diferentes somados na fatura do Apto 42 em junho
+        esperado: 2 | obtido: 2
+[OK] sessões somadas
+        esperado: 6 | obtido: 6
+
+------------------------------------------------------------------------------
+4. INTEGRAÇÃO DA ENERGIA (MÉTODO DE EULER)
+------------------------------------------------------------------------------
+[OK] 60 leituras de 7,0 kW, uma por minuto (kWh)
+        esperado: 7.0 | obtido: 7.0
+
+------------------------------------------------------------------------------
+5. SESSÃO INTERROMPIDA COBRA SÓ O VALIDADO
+------------------------------------------------------------------------------
+[OK] duração registrada (min) de uma sessão de 120 min cortada na metade
+        esperado: 60 | obtido: 60
+[OK] sessão marcada como interrompida
+        esperado: True | obtido: True
+[OK] as seis etapas do fluxo foram percorridas
+        esperado: 6 | obtido: 6
+
+------------------------------------------------------------------------------
+6. UNIDADE SEM RECARGA NO MÊS
+------------------------------------------------------------------------------
+[OK] Apto 12 em 09-2026: status
+        esperado: ISENTO | obtido: ISENTO
+[OK] Apto 12 em 09-2026: valor
+        esperado: 0.0 | obtido: 0.0
+
+------------------------------------------------------------------------------
+7. INADIMPLÊNCIA, BLOQUEIO E DESBLOQUEIO
+------------------------------------------------------------------------------
+[OK] Apto 32 com fatura vencida
+        esperado: True | obtido: True
+[OK] cartão D4E5F6A7 ativo
+        esperado: False | obtido: False
+[OK] autorização do cartão bloqueado
+        esperado: cartão bloqueado por fatura vencida | obtido: cartão bloqueado por fatura vencida
+[OK] autorização depois do pagamento
+        esperado: Accepted | obtido: Accepted
+
+------------------------------------------------------------------------------
+8. FECHAMENTO COM TAXA E SEM TAXA
+------------------------------------------------------------------------------
+[OK] fechamento de 10-2026 COM taxa aceito
+        esperado: True | obtido: True
+[OK] taxa gravada na fatura do Apto 42
+        esperado: 2.0 | obtido: 2.0
+[OK] total COM taxa = total SEM taxa + 2,00
+        esperado: 53.33 | obtido: 53.33
+[OK] junho foi fechado SEM taxa
+        esperado: 0.0 | obtido: 0.0
+[OK] fechar o mesmo mês duas vezes é recusado
+        esperado: False | obtido: False
+
+------------------------------------------------------------------------------
+9. CONSOLIDADO MENSAL E AUDITORIA
+------------------------------------------------------------------------------
+[OK] uma linha por unidade no consolidado
+        esperado: 8 | obtido: 8
+[OK] total do consolidado = valor faturado do mês
+        esperado: 979.35 | obtido: 979.35
+[OK] auditoria da fatura 9001 confere
+        esperado: True | obtido: True
+[OK] indicador da Sprint 1: precisão do faturamento (todas as faturas conferem)
+        esperado: 1.0 | obtido: 1.0
+[OK] auditoria acusa valor alterado à mão
+        esperado: False | obtido: False
+
+------------------------------------------------------------------------------
+10. LIMITE DE 10 CARTÕES POR UNIDADE
+------------------------------------------------------------------------------
+[OK] cartões aceitos para o Apto 31, que já tinha 1
+        esperado: 9 | obtido: 9
+
+------------------------------------------------------------------------------
+11. FILA DE PRIORIDADE DOS ALERTAS (HEAP)
+------------------------------------------------------------------------------
+[OK] ordem de saída do heap
+        esperado: [9, 8, 5, 2] | obtido: [9, 8, 5, 2]
+
+------------------------------------------------------------------------------
+12. CONCILIAÇÃO COM O SEMS PORTAL
+------------------------------------------------------------------------------
+[OK] dias com diferença acima de 3% no histórico
+        esperado: 3 | obtido: 3
+
+------------------------------------------------------------------------------
+13. INTELIGÊNCIA ARTIFICIAL
+------------------------------------------------------------------------------
+[OK] dias previstos
+        esperado: 7 | obtido: 7
+[OK] modelo de risco treinado
+        esperado: True | obtido: True
+[OK] análise do limite: precisão por dia igual à precisão estimada do modelo
+        esperado: 0.725 | obtido: 0.725
+[OK] análise do limite: as quatro precisões ficam entre 0 e 1
+        esperado: True | obtido: True
+[OK] precisão de uma previsão perfeita
+        esperado: 1.0 | obtido: 1.0
+[OK] precisão com erro de 10% em cada dia
+        esperado: 0.9 | obtido: 0.9
+[OK] janela noturna começa entre 18h e 23h
+        esperado: True | obtido: True
+[OK] janela diurna começa entre 6h e 17h
+        esperado: True | obtido: True
+[OK] intenção: 'Quanto o apto 42 consumiu em junho?'
+        esperado: consumo_unidade | obtido: consumo_unidade
+[OK] intenção: 'Qual o valor da fatura do apto 21?'
+        esperado: fatura_unidade | obtido: fatura_unidade
+[OK] intenção: 'Teve algum problema este mês?'
+        esperado: anomalias | obtido: anomalias
+[OK] unidade encontrada na pergunta
+        esperado: Apto 42 | obtido: Apto 42
+
+------------------------------------------------------------------------------
+RESULTADO
+------------------------------------------------------------------------------
+Cenários OK.......: 51
+Cenários com falha: 0
+
+Recriando a base de demonstração para deixar os dados limpos...

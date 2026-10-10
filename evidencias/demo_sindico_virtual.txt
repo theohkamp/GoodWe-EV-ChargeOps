@@ -1,0 +1,39 @@
+SÍNDICO VIRTUAL - conversa de demonstração [modo: simulado]
+
+Pergunta: Quanto o apto 42 consumiu em junho?
+Intenção: consumo_unidade
+Resposta: Apto 42 fez 6 recarga(s) em 06-2026, somando 120,00 kWh. Com a tarifa de R$ 0,95/kWh, o consumo é de R$ 114,00.
+
+Pergunta: Qual o valor da fatura do apto 42 em junho?
+Intenção: fatura_unidade
+Resposta: Fatura 9001 de Apto 42 em 06-2026: 120,00 kWh x R$ 0,95, sem taxa administrativa, total de R$ 114,00. Situação: paga.
+
+Pergunta: Por que a conta do apto 21 subiu?
+Intenção: comparar_meses
+Resposta: Em 08-2026 Apto 21 fez 15 recarga(s) e consumiu 234,07 kWh (R$ 222,37). Em 09-2026 foram 15 recarga(s) e 247,64 kWh (R$ 235,26). O consumo subiu 13,57 kWh, diferença de R$ 12,89. Como a tarifa é a mesma, a variação vem da quantidade de energia recarregada.
+
+Pergunta: O cartão do apto 32 está bloqueado?
+Intenção: status_cartao
+Resposta: Cartões de Apto 32: D4E5F6A7 (bloqueado). Há fatura vencida; o desbloqueio ocorre após o pagamento.
+
+Pergunta: Teve algum problema este mês?
+Intenção: anomalias
+Resposta: Há 5 alerta(s). Os mais graves:
+- Apto 32: fatura 9019 de 08-2026 (R$ 176,86) vencida em 2026-10-01. Cartões da unidade bloqueados.
+- Risco de ultrapassar 10 kW no quadro em: quinta 2026-10-15 (80%).
+- Tentativa de recarga com cartão bloqueado em 2026-10-05 19:20: D4E5F6A7 no carregador GW-002.
+- 2026-10-08 / GW-002: sessões somam 24,44 kWh e o SEMS registra 25,54 kWh (diferença de 4,3%).
+- 1 sessão(ões) interrompida(s) em 10-2026 (ids 5273). Cobrado apenas o kWh validado até a queda.
+
+Pergunta: Qual a previsão de demanda para os próximos dias?
+Intenção: previsao_demanda
+Resposta: Previsão para os próximos 7 dias: 277,9 kWh no total (modelo Regressão Linear, R² 0,45, erro médio de 9,2 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
+
+Pergunta: Qual o melhor horário para carregar por 4 horas?
+Intenção: melhor_horario
+Resposta: Para uma recarga de 4 hora(s) hoje (sábado): à noite, o melhor é começar às 23h e terminar às 3h (demanda média de 0,1 kW); durante o dia, das 6h às 10h. Evite por volta das 11h, o pico do dia.
+
+Pergunta: Me dê um resumo do condomínio em setembro
+Intenção: resumo_gestor
+Resposta: Em 09-2026 foram 68 sessões e 1094,59 kWh. Maiores consumos: Apto 21 (247,6 kWh), Apto 22 (201,6 kWh), Apto 41 (188,8 kWh). Faturado: R$ 1039,86; pendente: R$ 122,21.
+

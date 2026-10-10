@@ -1,0 +1,771 @@
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 1
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 1
+
+Meses com sessões:
+  1 - 06-2026
+  2 - 07-2026
+  3 - 08-2026
+  4 - 09-2026
+  5 - 10-2026
+Mês desejado...: 5
+
+==============================================================================
+PAINEL DO GESTOR - 10-2026
+==============================================================================
+Sessões.............: 19 (1 interrompidas)
+Energia entregue....: 291,65 kWh
+  GW-001............: 156,99 kWh, ocioso 96,2% do mês
+  GW-002............: 134,66 kWh, ocioso 96,7% do mês
+
+PRÉVIA DO MÊS (ainda aberto): as duas opções de fechamento
+Unidade   Bloco    Sessões  kWh       Sem taxa R$  Com taxa R$  
+------------------------------------------------------------------------------
+Apto 42   Torre A  4        54,03     51,33        53,33        
+Apto 41   Torre A  3        41,50     39,42        41,42        
+Apto 32   Torre A  0        0,00      0,00         0,00         
+Apto 31   Torre A  2        25,12     23,86        25,86        
+Apto 22   Torre B  3        54,76     52,02        54,02        
+Apto 21   Torre B  4        68,69     65,26        67,26        
+Apto 12   Torre B  2        28,71     27,27        29,27        
+Apto 11   Torre B  1        18,84     17,90        19,90        
+------------------------------------------------------------------------------
+Total SEM taxa......: R$ 277,06
+Total COM taxa......: R$ 291,06
+
+ALERTAS (do mais grave para o mais leve)
+------------------------------------------------------------------------------
+[9] INADIMPLENCIA: Apto 32: fatura 9019 de 08-2026 (R$ 176,86) vencida em 2026-10-01. Cartões da unidade bloqueados.
+[8] SOBRECARGA_PREVISTA: Risco de ultrapassar 10 kW no quadro em: quinta 2026-10-15 (80%).
+[7] CARTAO_BLOQUEADO: Tentativa de recarga com cartão bloqueado em 2026-10-05 19:20: D4E5F6A7 no carregador GW-002.
+[6] DIVERGENCIA_SEMS: 2026-10-08 / GW-002: sessões somam 24,44 kWh e o SEMS registra 25,54 kWh (diferença de 4,3%).
+[5] SESSAO_INTERROMPIDA: 1 sessão(ões) interrompida(s) em 10-2026 (ids 5273). Cobrado apenas o kWh validado até a queda.
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 9
+
+SIMULADOR DE RATEIO
+  1 - Exemplo da Sprint 1 (fatura 9001)
+  2 - Exemplo do pitch (Apto 42)
+  3 - Digitar os valores
+Opção desejada...: 1
+
+Fatura = (kWh x Tarifa) + Taxa administrativa
+Consumo.............: 120,00 kWh x R$ 0,95 = R$ 114,00
+Opção SEM taxa......: R$ 114,00
+Opção COM taxa......: R$ 114,00 + R$ 0,00 = R$ 114,00
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 9
+
+SIMULADOR DE RATEIO
+  1 - Exemplo da Sprint 1 (fatura 9001)
+  2 - Exemplo do pitch (Apto 42)
+  3 - Digitar os valores
+Opção desejada...: 2
+
+Fatura = (kWh x Tarifa) + Taxa administrativa
+Consumo.............: 12,40 kWh x R$ 0,95 = R$ 11,78
+Opção SEM taxa......: R$ 11,78
+Opção COM taxa......: R$ 11,78 + R$ 2,00 = R$ 13,78
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 5
+Número da fatura...: 9001
+
+FATURA 9001 - Apto 42 - 06-2026
+Sessão  Início            Cartão    Carreg.  kWh      Valor R$  Interrompida
+------------------------------------------------------------------------------
+5002    2026-06-01 19:30  A1B2C3D4  GW-001   17,20    16,34     não         
+5003    2026-06-08 20:00  A1B2C3D4  GW-001   19,80    18,81     não         
+5004    2026-06-10 18:45  A1B2C3D4  GW-001   18,50    17,57     não         
+5001    2026-06-18 19:00  A1B2C3D4  GW-001   21,50    20,43     não         
+5005    2026-06-22 19:15  A1B2C3D4  GW-001   20,40    19,38     não         
+5006    2026-06-24 20:10  B2C3D4E5  GW-001   22,60    21,47     não         
+------------------------------------------------------------------------------
+Energia.............: 120,00 kWh
+Tarifa..............: R$ 0,95/kWh
+Taxa administrativa.: não cobrada (fechamento SEM taxa)
+Total gravado.......: R$ 114,00
+Total recalculado...: R$ 114,00
+Situação............: PAID (vencimento 2026-07-31)
+Auditoria...........: CONFERE com as sessões registradas
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 6
+
+Meses com sessões:
+  1 - 06-2026
+  2 - 07-2026
+  3 - 08-2026
+  4 - 09-2026
+  5 - 10-2026
+Mês desejado...: 5
+
+==============================================================================
+CONCILIAÇÃO COM O SEMS PORTAL - 10-2026
+==============================================================================
+Data        Carreg.  Sessões kWh  SEMS kWh   Erro abs.  Erro rel.  Situação  
+------------------------------------------------------------------------------
+2026-10-01  GW-002   13,85        14,04      0,19       1,4%       ok        
+2026-10-01  GW-001   12,46        12,52      0,06       0,5%       ok        
+2026-10-02  GW-002   25,92        26,18      0,26       1,0%       ok        
+2026-10-03  GW-002   13,15        13,07      0,08       0,6%       ok        
+2026-10-03  GW-001   22,27        22,51      0,24       1,1%       ok        
+2026-10-05  GW-002   26,29        26,29      0,00       0,0%       ok        
+2026-10-05  GW-001   12,64        12,82      0,18       1,4%       ok        
+2026-10-06  GW-001   42,41        42,03      0,38       0,9%       ok        
+2026-10-07  GW-001   17,69        17,81      0,12       0,7%       ok        
+2026-10-07  GW-002   12,75        12,79      0,04       0,3%       ok        
+2026-10-08  GW-002   24,44        25,54      1,10       4,3%       DIVERGENTE
+2026-10-08  GW-001   33,80        34,10      0,30       0,9%       ok        
+2026-10-09  GW-001   15,72        15,74      0,02       0,1%       ok        
+2026-10-09  GW-002   18,26        18,26      0,00       0,0%       ok        
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 10
+
+==============================================================================
+INDICADORES DEFINIDOS NA SPRINT 1
+==============================================================================
+Precisão do faturamento (meta: 100%)
+   Resultado...: 100%
+   Como medimos: auditoria: 32 de 32 faturas conferem com as sessões
+Precisão do modelo preditivo (meta: > 85%)
+   Resultado...: 74,3% por dia e 88,8% por semana
+   Como medimos: período de teste com dados simulados; ver Previsão de Demanda
+Disponibilidade da plataforma (meta: > 99%)
+   Resultado...: não medido
+   Como medimos: exige operação contínua em produção
+Margem de erro de leitura RFID (meta: < 1%)
+   Resultado...: não medido
+   Como medimos: exige o leitor físico do carregador
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 0
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 2
+
+Unidades:
+  1 - Apto 42 / Torre A
+  2 - Apto 41 / Torre A
+  3 - Apto 32 / Torre A
+  4 - Apto 31 / Torre A
+  5 - Apto 22 / Torre B
+  6 - Apto 21 / Torre B
+  7 - Apto 12 / Torre B
+  8 - Apto 11 / Torre B
+Id da unidade...: 1
+
+    INTERFACE DO MORADOR - Apto 42 / Torre A
+    0 - VOLTAR
+    1 - Consumo, sessões e fatura do mês
+    2 - Meus cartões RFID
+    3 - Melhor horário para recarregar
+    4 - Conversar com o Síndico Virtual
+        
+Opção desejada...: 1
+
+Meses com sessões:
+  1 - 06-2026
+  2 - 07-2026
+  3 - 08-2026
+  4 - 09-2026
+  5 - 10-2026
+Mês desejado...: 1
+
+==============================================================================
+Apto 42 / Torre A - 06-2026
+==============================================================================
+Sessão  Início            Fim               Cartão    kWh      Valor R$  
+------------------------------------------------------------------------------
+5002    2026-06-01 19:30  2026-06-01 22:20  A1B2C3D4  17,20    16,34     
+5003    2026-06-08 20:00  2026-06-08 23:10  A1B2C3D4  19,80    18,81     
+5004    2026-06-10 18:45  2026-06-10 21:50  A1B2C3D4  18,50    17,57     
+5001    2026-06-18 19:00  2026-06-18 22:30  A1B2C3D4  21,50    20,43     
+5005    2026-06-22 19:15  2026-06-22 22:35  A1B2C3D4  20,40    19,38     
+5006    2026-06-24 20:10  2026-06-24 23:50  B2C3D4E5  22,60    21,47     
+------------------------------------------------------------------------------
+Energia no mês......: 120,00 kWh
+Consumo.............: R$ 114,00 (tarifa de R$ 0,95/kWh)
+
+FATURA 9001 - Apto 42 - 06-2026
+Sessão  Início            Cartão    Carreg.  kWh      Valor R$  Interrompida
+------------------------------------------------------------------------------
+5002    2026-06-01 19:30  A1B2C3D4  GW-001   17,20    16,34     não         
+5003    2026-06-08 20:00  A1B2C3D4  GW-001   19,80    18,81     não         
+5004    2026-06-10 18:45  A1B2C3D4  GW-001   18,50    17,57     não         
+5001    2026-06-18 19:00  A1B2C3D4  GW-001   21,50    20,43     não         
+5005    2026-06-22 19:15  A1B2C3D4  GW-001   20,40    19,38     não         
+5006    2026-06-24 20:10  B2C3D4E5  GW-001   22,60    21,47     não         
+------------------------------------------------------------------------------
+Energia.............: 120,00 kWh
+Tarifa..............: R$ 0,95/kWh
+Taxa administrativa.: não cobrada (fechamento SEM taxa)
+Total gravado.......: R$ 114,00
+Total recalculado...: R$ 114,00
+Situação............: PAID (vencimento 2026-07-31)
+Auditoria...........: CONFERE com as sessões registradas
+
+    INTERFACE DO MORADOR - Apto 42 / Torre A
+    0 - VOLTAR
+    1 - Consumo, sessões e fatura do mês
+    2 - Meus cartões RFID
+    3 - Melhor horário para recarregar
+    4 - Conversar com o Síndico Virtual
+        
+Opção desejada...: 2
+
+CARTÕES RFID DE Apto 42
+UID        Usuário             Situação  
+------------------------------------------------------------------------------
+A1B2C3D4   João Silva          ativo     
+B2C3D4E5   Maria Silva         ativo     
+
+    INTERFACE DO MORADOR - Apto 42 / Torre A
+    0 - VOLTAR
+    1 - Consumo, sessões e fatura do mês
+    2 - Meus cartões RFID
+    3 - Melhor horário para recarregar
+    4 - Conversar com o Síndico Virtual
+        
+Opção desejada...: 3
+Duração da recarga em horas (1 a 8)...: 3
+
+Hoje é sábado. Para 3 hora(s) de recarga:
+À noite.............: das 23h às 2h (demanda média de 0,1 kW)
+Durante o dia.......: das 6h às 9h (demanda média de 0,0 kW)
+Evite...............: por volta das 11h (pico de 3,2 kW)
+
+    INTERFACE DO MORADOR - Apto 42 / Torre A
+    0 - VOLTAR
+    1 - Consumo, sessões e fatura do mês
+    2 - Meus cartões RFID
+    3 - Melhor horário para recarregar
+    4 - Conversar com o Síndico Virtual
+        
+Opção desejada...: 4
+
+==============================================================================
+SÍNDICO VIRTUAL [modo: simulado]
+==============================================================================
+Pergunte sobre consumo, faturas, anomalias, previsão ou melhor horário.
+Digite SAIR para encerrar a conversa.
+
+Você: Quanto gastei em setembro?
+Síndico Virtual [simulado]: Apto 42 fez 13 recarga(s) em 09-2026, somando 187,90 kWh. Com a tarifa de R$ 0,95/kWh, o consumo é de R$ 178,50. 1 sessão(ões) foi(ram) interrompida(s) e cobrada(s) só pelo kWh validado.
+
+Você: Por que minha conta subiu?
+Síndico Virtual [simulado]: Em 08-2026 Apto 42 fez 11 recarga(s) e consumiu 174,71 kWh (R$ 165,97). Em 09-2026 foram 13 recarga(s) e 187,90 kWh (R$ 178,50). O consumo subiu 13,19 kWh, diferença de R$ 12,53. Como a tarifa é a mesma, a variação vem da quantidade de energia recarregada.
+
+Você: SAIR
+
+    INTERFACE DO MORADOR - Apto 42 / Torre A
+    0 - VOLTAR
+    1 - Consumo, sessões e fatura do mês
+    2 - Meus cartões RFID
+    3 - Melhor horário para recarregar
+    4 - Conversar com o Síndico Virtual
+        
+Opção desejada...: 0
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 3
+
+    SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
+    0 - VOLTAR
+    1 - Simular uma sessão de recarga completa
+    2 - Simular uma sessão interrompida (queda de energia)
+    3 - Tentar recarregar com um cartão bloqueado
+    4 - Recriar a base de demonstração
+        
+Opção desejada...: 3
+
+==============================================================================
+FLUXO DA SESSÃO DE RECARGA
+==============================================================================
+1. RFID
+   Cartão D4E5F6A7 recusado: cartão bloqueado por fatura vencida.
+
+    SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
+    0 - VOLTAR
+    1 - Simular uma sessão de recarga completa
+    2 - Simular uma sessão interrompida (queda de energia)
+    3 - Tentar recarregar com um cartão bloqueado
+    4 - Recriar a base de demonstração
+        
+Opção desejada...: 1
+
+CARTÕES RFID
+  1 - A1B2C3D4 | João Silva | Apto 42 | ativo
+  2 - B2C3D4E5 | Maria Silva | Apto 42 | ativo
+  3 - C3D4E5F6 | Carlos Pereira | Apto 41 | ativo
+  4 - D4E5F6A7 | Ana Souza | Apto 32 | bloqueado
+  5 - E5F6A7B8 | Bruno Lima | Apto 31 | ativo
+  6 - F6A7B8C9 | Fernanda Costa | Apto 22 | ativo
+  7 - A7B8C9D0 | Rafael Almeida | Apto 21 | ativo
+  8 - B8C9D0E1 | Juliana Almeida | Apto 21 | ativo
+  9 - C9D0E1F2 | Paulo Mendes | Apto 12 | ativo
+  10 - D0E1F2A3 | Luciana Rocha | Apto 11 | ativo
+Cartão aproximado do leitor...: 1
+
+CARREGADORES
+  1 - GW-001 | GW7K-HCA | Vaga L1
+  2 - GW-002 | GW7K-HCA | Vaga L2
+Carregador...: 1
+Duração planejada em minutos...: 90
+
+==============================================================================
+FLUXO DA SESSÃO DE RECARGA
+==============================================================================
+1. RFID
+   Cartão A1B2C3D4 lido e autorizado (Authorize: Accepted).
+2. Sessão iniciada
+   StartTransaction: carregador GW-001, início 2026-10-10 19:27, corrente negociada de 21 A.
+3. Energia medida (kWh)
+   StopTransaction: 6,87 kWh em 90 min (média 4,58 kW, pico 4,96 kW).
+4. Associação à unidade
+   Sessão 5289 associada a Apto 42 / Torre A.
+5. Rateio
+   6,87 kWh x R$ 0,95 = R$ 6,53. A taxa administrativa, quando ativada, entra no fechamento do mês.
+6. Painel e Insights
+   Apto 42 acumula 60,90 kWh em 10-2026 (R$ 57,85 de consumo).
+
+LEITURAS DO CARREGADOR (amostra)
+Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
+------------------------------------------------------------------------------
+1       231,20    21,30       4,92         0,08        
+16      228,20    21,00       4,79         1,29        
+31      227,20    21,10       4,79         2,50        
+46      231,00    21,20       4,90         3,70        
+61      228,30    21,20       4,84         4,91        
+76      227,00    21,10       4,79         6,10        
+
+    SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
+    0 - VOLTAR
+    1 - Simular uma sessão de recarga completa
+    2 - Simular uma sessão interrompida (queda de energia)
+    3 - Tentar recarregar com um cartão bloqueado
+    4 - Recriar a base de demonstração
+        
+Opção desejada...: 2
+
+CARTÕES RFID
+  1 - A1B2C3D4 | João Silva | Apto 42 | ativo
+  2 - B2C3D4E5 | Maria Silva | Apto 42 | ativo
+  3 - C3D4E5F6 | Carlos Pereira | Apto 41 | ativo
+  4 - D4E5F6A7 | Ana Souza | Apto 32 | bloqueado
+  5 - E5F6A7B8 | Bruno Lima | Apto 31 | ativo
+  6 - F6A7B8C9 | Fernanda Costa | Apto 22 | ativo
+  7 - A7B8C9D0 | Rafael Almeida | Apto 21 | ativo
+  8 - B8C9D0E1 | Juliana Almeida | Apto 21 | ativo
+  9 - C9D0E1F2 | Paulo Mendes | Apto 12 | ativo
+  10 - D0E1F2A3 | Luciana Rocha | Apto 11 | ativo
+Cartão aproximado do leitor...: 7
+
+CARREGADORES
+  1 - GW-001 | GW7K-HCA | Vaga L1
+  2 - GW-002 | GW7K-HCA | Vaga L2
+Carregador...: 2
+Duração planejada em minutos...: 120
+
+==============================================================================
+FLUXO DA SESSÃO DE RECARGA
+==============================================================================
+1. RFID
+   Cartão A7B8C9D0 lido e autorizado (Authorize: Accepted).
+2. Sessão iniciada
+   StartTransaction: carregador GW-002, início 2026-10-10 19:27, corrente negociada de 23 A.
+3. Energia medida (kWh)
+   StopTransaction: 5,30 kWh em 60 min (média 5,30 kW, pico 5,43 kW). Sessão interrompida: vale o volume validado até a queda.
+4. Associação à unidade
+   Sessão 5290 associada a Apto 21 / Torre B.
+5. Rateio
+   5,30 kWh x R$ 0,95 = R$ 5,03. A taxa administrativa, quando ativada, entra no fechamento do mês.
+6. Painel e Insights
+   Apto 21 acumula 73,99 kWh em 10-2026 (R$ 70,29 de consumo).
+
+LEITURAS DO CARREGADOR (amostra)
+Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
+------------------------------------------------------------------------------
+1       229,10    23,00       5,27         0,09        
+16      229,50    22,70       5,21         1,42        
+31      229,50    22,70       5,21         2,74        
+46      228,30    23,20       5,30         4,06        
+
+    SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
+    0 - VOLTAR
+    1 - Simular uma sessão de recarga completa
+    2 - Simular uma sessão interrompida (queda de energia)
+    3 - Tentar recarregar com um cartão bloqueado
+    4 - Recriar a base de demonstração
+        
+Opção desejada...: 0
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 4
+
+    INTELIGÊNCIA ARTIFICIAL [Síndico Virtual em modo: simulado]
+    0 - VOLTAR
+    1 - Treinar e avaliar o modelo de previsão de demanda
+    2 - Ver a previsão dos próximos 7 dias
+    3 - Melhor horário para recarregar hoje
+    4 - Conversar com o Síndico Virtual (visão do gestor)
+        
+Opção desejada...: 1
+
+Histórico usado.....: 132 dias (105 de treino e 27 de teste)
+
+MODELO              MAE (kWh)   RMSE (kWh)   R²       Erro relativo
+------------------------------------------------------------------------------
+Regressão Linear    9,63        12,57        0,415    26,7%
+Ridge (alpha=1)     9,60        12,60        0,413    26,6%
+------------------------------------------------------------------------------
+Modelo escolhido....: Regressão Linear (menor RMSE no período de teste)
+Precisão estimada...: 73,3% (1 - erro relativo)
+
+DE ONDE VEM O ERRO (precisão no período de teste; meta da Sprint 1: 85%)
+Modelo, por dia...............: 73,3%
+Teto do calendário............: 72,6% (média real de cada dia da semana)
+Sabendo as recargas do dia....: 82,5% (por exemplo, com agendamento)
+Modelo, por semana............: 86,9% (3 semanas de teste)
+O modelo já está no teto do que o calendário explica. O erro restante é a variação
+de quem recarrega e de quanto recarrega, que só dados da operação real reduzem.
+
+CLASSIFICAÇÃO DO RISCO DE SOBRECARGA (limite de 10 kW)
+Dias com sobrecarga.: 43 de 125
+Acurácia............: 76,3%
+Precisão............: 85,7%
+Recall..............: 42,9%
+F1-score............: 0,571
+Matriz de confusão..: [[23, 1], [8, 6]]
+
+PREVISÃO PARA OS PRÓXIMOS 7 DIAS
+Data        Dia       kWh previstos  Prob. sobrecarga  Risco   
+------------------------------------------------------------------------------
+2026-10-11  domingo   23,80          13%               normal  
+2026-10-12  segunda   49,10          32%               normal  
+2026-10-13  terça     37,30          23%               normal  
+2026-10-14  quarta    43,50          39%               normal  
+2026-10-15  quinta    54,00          78%               ALTO    
+2026-10-16  sexta     35,60          29%               normal  
+2026-10-17  sábado    34,10          26%               normal  
+
+    INTELIGÊNCIA ARTIFICIAL [Síndico Virtual em modo: simulado]
+    0 - VOLTAR
+    1 - Treinar e avaliar o modelo de previsão de demanda
+    2 - Ver a previsão dos próximos 7 dias
+    3 - Melhor horário para recarregar hoje
+    4 - Conversar com o Síndico Virtual (visão do gestor)
+        
+Opção desejada...: 4
+
+==============================================================================
+SÍNDICO VIRTUAL [modo: simulado]
+==============================================================================
+Pergunte sobre consumo, faturas, anomalias, previsão ou melhor horário.
+Digite SAIR para encerrar a conversa.
+
+Você: Teve algum problema este mês?
+Síndico Virtual [simulado]: Há 6 alerta(s). Os mais graves:
+- Apto 32: fatura 9019 de 08-2026 (R$ 176,86) vencida em 2026-10-01. Cartões da unidade bloqueados.
+- Risco de ultrapassar 10 kW no quadro em: quinta 2026-10-15 (78%).
+- Tentativa de recarga com cartão bloqueado em 2026-10-10 19:27: D4E5F6A7 no carregador GW-001.
+- Tentativa de recarga com cartão bloqueado em 2026-10-05 19:20: D4E5F6A7 no carregador GW-002.
+- 2026-10-08 / GW-002: sessões somam 24,44 kWh e o SEMS registra 25,54 kWh (diferença de 4,3%).
+
+Você: Qual a previsão de demanda?
+Síndico Virtual [simulado]: Previsão para os próximos 7 dias: 277,4 kWh no total (modelo Regressão Linear, R² 0,41, erro médio de 9,6 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
+
+Você: SAIR
+
+    INTELIGÊNCIA ARTIFICIAL [Síndico Virtual em modo: simulado]
+    0 - VOLTAR
+    1 - Treinar e avaliar o modelo de previsão de demanda
+    2 - Ver a previsão dos próximos 7 dias
+    3 - Melhor horário para recarregar hoje
+    4 - Conversar com o Síndico Virtual (visão do gestor)
+        
+Opção desejada...: 0
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 1
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 2
+
+Meses com sessões:
+  1 - 06-2026
+  2 - 07-2026
+  3 - 08-2026
+  4 - 09-2026
+  5 - 10-2026
+Mês desejado...: 5
+
+Tarifa atual: R$ 0,95/kWh. Taxa administrativa: R$ 2,00.
+  1 - Fechar SEM taxa administrativa
+  2 - Fechar COM taxa administrativa
+Opção desejada...: 2
+
+Mês 10-2026 fechado com taxa de R$ 2,00.
+Fatura  Unidade   kWh       Taxa R$  Total R$   Status   
+------------------------------------------------------------------------------
+9033    Apto 42   60,90     2,00     59,86      PENDING  
+9034    Apto 41   41,50     2,00     41,42      PENDING  
+9035    Apto 32   0,00      0,00     0,00       ISENTO   
+9036    Apto 31   25,12     2,00     25,86      PENDING  
+9037    Apto 22   54,76     2,00     54,02      PENDING  
+9038    Apto 21   73,99     2,00     72,29      PENDING  
+9039    Apto 12   28,71     2,00     29,27      PENDING  
+9040    Apto 11   18,84     2,00     19,90      PENDING  
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 3
+
+FATURAS PENDENTES
+Fatura  Unidade   Mês       Total R$   Vencimento  
+------------------------------------------------------------------------------
+9019    Apto 32   08-2026   176,86     2026-10-01  
+9027    Apto 32   09-2026   122,21     2026-10-31  
+9033    Apto 42   10-2026   59,86      2026-11-09  
+9034    Apto 41   10-2026   41,42      2026-11-09  
+9036    Apto 31   10-2026   25,86      2026-11-09  
+9037    Apto 22   10-2026   54,02      2026-11-09  
+9038    Apto 21   10-2026   72,29      2026-11-09  
+9039    Apto 12   10-2026   29,27      2026-11-09  
+9040    Apto 11   10-2026   19,90      2026-11-09  
+Número da fatura paga (0 cancela)...: 9019
+Pagamento da fatura 9019 registrado. 1 cartão(ões) desbloqueado(s).
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 3
+
+FATURAS PENDENTES
+Fatura  Unidade   Mês       Total R$   Vencimento  
+------------------------------------------------------------------------------
+9027    Apto 32   09-2026   122,21     2026-10-31  
+9033    Apto 42   10-2026   59,86      2026-11-09  
+9034    Apto 41   10-2026   41,42      2026-11-09  
+9036    Apto 31   10-2026   25,86      2026-11-09  
+9037    Apto 22   10-2026   54,02      2026-11-09  
+9038    Apto 21   10-2026   72,29      2026-11-09  
+9039    Apto 12   10-2026   29,27      2026-11-09  
+9040    Apto 11   10-2026   19,90      2026-11-09  
+Número da fatura paga (0 cancela)...: 9027
+Pagamento da fatura 9027 registrado.
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 4
+
+Cartões bloqueados agora......: 0
+Cartões desbloqueados agora...: 0
+Unidades com fatura vencida:
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+        
+Opção desejada...: 0
+
+==============================================================================
+    EV CHARGEOPS - GOODWE + FIAP
+    Gestão inteligente de recargas compartilhadas
+==============================================================================
+    0 - SAIR
+    1 - PAINEL DO GESTOR
+    2 - INTERFACE DO MORADOR
+    3 - SIMULAÇÃO DO CARREGADOR (telemetria)
+    4 - INTELIGÊNCIA ARTIFICIAL
+        
+Opção desejada...: 0
+OK! O programa está encerrado...
