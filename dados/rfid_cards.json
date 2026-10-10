@@ -1,0 +1,52 @@
+[
+    {
+        "uid": "A1B2C3D4",
+        "user_id": 101,
+        "status": true
+    },
+    {
+        "uid": "B2C3D4E5",
+        "user_id": 102,
+        "status": true
+    },
+    {
+        "uid": "C3D4E5F6",
+        "user_id": 103,
+        "status": true
+    },
+    {
+        "uid": "D4E5F6A7",
+        "user_id": 104,
+        "status": false
+    },
+    {
+        "uid": "E5F6A7B8",
+        "user_id": 105,
+        "status": true
+    },
+    {
+        "uid": "F6A7B8C9",
+        "user_id": 106,
+        "status": true
+    },
+    {
+        "uid": "A7B8C9D0",
+        "user_id": 107,
+        "status": true
+    },
+    {
+        "uid": "B8C9D0E1",
+        "user_id": 108,
+        "status": true
+    },
+    {
+        "uid": "C9D0E1F2",
+        "user_id": 109,
+        "status": true
+    },
+    {
+        "uid": "D0E1F2A3",
+        "user_id": 110,
+        "status": true
+    }
+]

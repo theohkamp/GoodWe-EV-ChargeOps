@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Apto 42",
+        "block": "Torre A"
+    },
+    {
+        "id": 2,
+        "name": "Apto 41",
+        "block": "Torre A"
+    },
+    {
+        "id": 3,
+        "name": "Apto 32",
+        "block": "Torre A"
+    },
+    {
+        "id": 4,
+        "name": "Apto 31",
+        "block": "Torre A"
+    },
+    {
+        "id": 5,
+        "name": "Apto 22",
+        "block": "Torre B"
+    },
+    {
+        "id": 6,
+        "name": "Apto 21",
+        "block": "Torre B"
+    },
+    {
+        "id": 7,
+        "name": "Apto 12",
+        "block": "Torre B"
+    },
+    {
+        "id": 8,
+        "name": "Apto 11",
+        "block": "Torre B"
+    }
+]

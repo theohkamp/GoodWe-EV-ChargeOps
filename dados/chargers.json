@@ -1,0 +1,14 @@
+[
+    {
+        "id": "GW-001",
+        "model": "GW7K-HCA",
+        "max_power_kw": 7.0,
+        "location": "Vaga L1"
+    },
+    {
+        "id": "GW-002",
+        "model": "GW7K-HCA",
+        "max_power_kw": 7.0,
+        "location": "Vaga L2"
+    }
+]

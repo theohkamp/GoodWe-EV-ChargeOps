@@ -1,0 +1,12 @@
+{
+    "tarifa_kwh": 0.95,
+    "taxa_admin": 2.0,
+    "cobrar_taxa": false,
+    "cobrar_taxa_sem_uso": false,
+    "dias_para_vencimento": 30,
+    "tensao_nominal_v": 230,
+    "corrente_max_a": 30,
+    "potencia_max_kw": 7.0,
+    "limite_quadro_kw": 10.0,
+    "limite_divergencia_sems": 0.03
+}
