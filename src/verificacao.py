@@ -138,6 +138,10 @@ for linha in consolidado:
 confere("total do consolidado = valor faturado do mês", rateio.resumo_do_mes("06-2026")["valor_faturado"],
         round(soma, 2))
 confere("auditoria da fatura 9001 confere", True, rateio.auditar_fatura(9001)["confere"])
+linhas_csv = controle_gestor.consolidado_em_csv("06-2026").strip().split("\n")
+confere("consolidado em CSV: cabeçalho e uma linha por unidade", 9, len(linhas_csv))
+confere("consolidado em CSV: linha da fatura 9001",
+        "9001;Apto 42;Torre A;06-2026;6;120,00;0,95;0,00;114,00;PAID;2026-07-31", linhas_csv[1])
 confere("indicador da Sprint 1: precisão do faturamento (todas as faturas conferem)", 1.0,
         rateio.conferir_faturas()["precisao"])
 dados.executar("UPDATE invoices SET total_value = 150.0 WHERE id = 9001")
@@ -182,6 +186,7 @@ confere("dias com diferença acima de 3% no histórico", 3, divergentes)
 secao("14. INTELIGÊNCIA ARTIFICIAL")
 previsao = ia_previsao.executar_previsao_completa()
 confere("dias previstos", 7, len(previsao["previsao_7_dias"]))
+confere("a previsão começa hoje", dados.hoje_texto(), previsao["previsao_7_dias"][0]["data"])
 confere("modelo de risco treinado", True, previsao["risco"]["treinado"])
 # a esta altura ja existe uma sessao gravada hoje (secao da sessao interrompida)
 confere("histórico da previsão usa só dias completos: a sessão de hoje fica fora", 131,

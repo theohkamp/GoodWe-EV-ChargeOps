@@ -49,6 +49,30 @@ def consolidado_do_mes(mes: str) -> list:
     return linhas
 
 
+def consolidado_em_csv(mes: str) -> str:
+    # consolidado em texto CSV, para a administradora lancar os valores na cota condominial
+    # ponto e virgula entre os campos e virgula decimal: abre direto em planilha em portugues
+    linhas = ["fatura;unidade;bloco;mes;sessoes;kwh;tarifa;taxa_admin;total;status;vencimento"]
+    for linha in consolidado_do_mes(mes):
+        campos = [str(linha["fatura"]), linha["unidade"], linha["bloco"], mes, str(linha["sessoes"]),
+                  formato.decimal(linha["kwh"], 2), formato.decimal(linha["tarifa"], 2),
+                  formato.decimal(linha["taxa"], 2), formato.decimal(linha["total"], 2),
+                  linha["status"], linha["vencimento"]]
+        linhas.append(";".join(campos))
+    return "\n".join(linhas) + "\n"
+
+
+def exportar_consolidado(mes: str) -> dict:
+    # grava o CSV do consolidado na pasta de dados (so para mes fechado)
+    if len(dados.faturas_do_mes(mes)) == 0:
+        return {"ok": False, "mensagem": f"O mês {mes} ainda não foi fechado.", "arquivo": ""}
+    arquivo = dados.PASTA_DADOS + "/consolidado_" + mes + ".csv"
+    # "utf-8-sig" marca o arquivo para a planilha reconhecer os acentos
+    with open(arquivo, "w", encoding="utf-8-sig") as arq:
+        arq.write(consolidado_em_csv(mes))
+    return {"ok": True, "mensagem": f"Consolidado de {mes} gravado em {arquivo}.", "arquivo": arquivo}
+
+
 def previa_do_mes(mes: str) -> list:
     # mes aberto: mostra as duas opcoes de fechamento, sem taxa e com taxa
     config = dados.carregar_config()

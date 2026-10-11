@@ -382,8 +382,14 @@ def prever_proximos_dias(tabela: pd.DataFrame, demanda: dict, risco: dict, curva
     ultimo_dia = datetime.strptime(datas[len(datas) - 1], dados.FORMATO_DATA)
     ultimo_indice = int(tabela["indice_dia"].values[len(tabela) - 1])
     historico = list(tabela["kwh_total"].values)
+    # a previsao mostrada comeca hoje. Se o historico terminou ha mais dias (base parada),
+    # os dias do intervalo tambem sao previstos, mas so para alimentar os dias seguintes
+    hoje = datetime.strptime(dados.hoje_texto(), dados.FORMATO_DATA)
+    dias_pulados = (hoje - ultimo_dia).days - 1
+    if dias_pulados < 0:
+        dias_pulados = 0
     previsoes = []
-    for k in range(1, n_dias + 1):
+    for k in range(1, dias_pulados + n_dias + 1):
         dia = ultimo_dia + timedelta(days=k)
         ontem = historico[len(historico) - 1]
         soma = 0.0
@@ -407,15 +413,16 @@ def prever_proximos_dias(tabela: pd.DataFrame, demanda: dict, risco: dict, curva
             probabilidade = float(risco["modelo"].predict_proba(linha_risco)[0][1])
 
         pico_tipico = max(curva[dia.weekday()])
-        previsoes.append({
-            "data": dia.strftime(dados.FORMATO_DATA),
-            "dia_semana": dados.NOMES_DOS_DIAS[dia.weekday()],
-            "kwh_previsto": round(kwh_previsto, 1),
-            "prob_sobrecarga": round(probabilidade, 3),
-            "pico_tipico_kw": round(pico_tipico, 2),
-            # SOBRECARGA_PREVISTA = (PICO_TIPICO > LIMITE) OR (PROBABILIDADE >= 0,7)
-            "risco_alto": pico_tipico > config["limite_quadro_kw"] or probabilidade >= LIMITE_PROBABILIDADE
-        })
+        if k > dias_pulados:
+            previsoes.append({
+                "data": dia.strftime(dados.FORMATO_DATA),
+                "dia_semana": dados.NOMES_DOS_DIAS[dia.weekday()],
+                "kwh_previsto": round(kwh_previsto, 1),
+                "prob_sobrecarga": round(probabilidade, 3),
+                "pico_tipico_kw": round(pico_tipico, 2),
+                # SOBRECARGA_PREVISTA = (PICO_TIPICO > LIMITE) OR (PROBABILIDADE >= 0,7)
+                "risco_alto": pico_tipico > config["limite_quadro_kw"] or probabilidade >= LIMITE_PROBABILIDADE
+            })
         # a previsao de um dia vira o "ontem" do dia seguinte
         historico.append(kwh_previsto)
     return previsoes
@@ -506,6 +513,7 @@ def executar_previsao_completa() -> dict:
 
     resultado = {
         "gerado_em": dados.agora_texto(),
+        "historico_ate": tabela["data"].values[len(tabela) - 1],
         "dias_de_historico": len(tabela),
         "dias_treino": demanda["dias_treino"],
         "dias_teste": demanda["dias_teste"],

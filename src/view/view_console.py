@@ -338,6 +338,7 @@ def menu_gestor() -> None:
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         """)
         opcao = ler_inteiro("Opção desejada...: ")
         match opcao:
@@ -363,6 +364,8 @@ def menu_gestor() -> None:
                 tela_simulador_de_rateio()
             case 10:
                 tela_indicadores()
+            case 11:
+                print("\n" + controle_gestor.exportar_consolidado(escolher_mes())["mensagem"])
             case _:
                 print("***** Opção inválida! *****")
 
@@ -573,7 +576,7 @@ def mostrar_metricas(previsao: dict) -> None:
 
 
 def mostrar_previsao_7_dias(previsao: dict) -> None:
-    print("\nPREVISÃO PARA OS PRÓXIMOS 7 DIAS")
+    print(f"\nPREVISÃO PARA OS PRÓXIMOS 7 DIAS (a partir de hoje; histórico até {previsao['historico_ate']})")
     linhas = []
     for dia in previsao["previsao_7_dias"]:
         risco = "normal"

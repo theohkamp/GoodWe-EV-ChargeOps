@@ -57,3 +57,8 @@ def preparar_sistema() -> None:
     # bloqueio automatico de inadimplentes (Sprint 1): os cartoes sao conferidos
     # contra as faturas vencidas sem depender de o gestor apertar um botao
     rateio.atualizar_bloqueios(dados.hoje_texto())
+    # a previsao vale para o dia em que foi gerada: em um novo dia, o modelo e treinado de novo
+    # (os 10 primeiros caracteres de "gerado_em" sao a data, AAAA-MM-DD)
+    previsao = ia_previsao.carregar_previsao()
+    if previsao == {} or previsao["gerado_em"][0:10] != dados.hoje_texto():
+        ia_previsao.executar_previsao_completa()

@@ -191,6 +191,10 @@ def aba_consolidado(mes: str) -> None:
                                                ("sessoes", "Sessões", "texto"), ("fatura", "Fatura", "texto"),
                                                ("bloco", "Bloco", "texto"),
                                                ("vencimento", "Vencimento", "texto")])
+        # arquivo para a administradora lancar os valores na cota condominial
+        st.download_button("Baixar o consolidado (CSV)",
+                           controle_gestor.consolidado_em_csv(mes).encode("utf-8-sig"),
+                           file_name=f"consolidado_{mes}.csv", mime="text/csv")
     else:
         previa = painel["previa"]
         colunas[2].metric("Total sem taxa", reais(controle_gestor.total_da_coluna(previa, "total_sem_taxa")))
@@ -486,6 +490,8 @@ def pagina_previsao() -> None:
                    "histórico e pode usar esse tipo de informação.")
 
     st.markdown("#### Próximos 7 dias")
+    st.caption(f"A previsão começa hoje e usa o histórico até {previsao['historico_ate']}. "
+               "Ao abrir o sistema em um novo dia, o modelo é treinado de novo.")
     mostrar_grafico(graficos.grafico_previsao_7_dias(previsao["previsao_7_dias"]))
     mostrar_tabela(previsao["previsao_7_dias"],
                    [("data", "Data", "texto"), ("dia_semana", "Dia", "texto"),
