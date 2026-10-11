@@ -33,7 +33,7 @@ O protótipo cobre o fluxo completo de uma recarga em condomínio, do cartão RF
 - **Síndico Virtual**, que responde em linguagem natural sobre consumo, cobranças e anomalias usando os dados do sistema.
 - **Duas interfaces** sobre as mesmas regras: painel web responsivo para gestor e morador, que funciona no computador e no celular, e menu de console.
 
-O carregador e o portal SEMS são simulados. Os dados do repositório são sintéticos e reproduzíveis: o gerador usa semente fixa, então a base sai igual em qualquer máquina.
+O carregador e o portal SEMS são simulados. Os dados são sintéticos e reproduzíveis: o gerador usa semente fixa, então a base sai igual em qualquer máquina.
 
 ![Painel do gestor com as duas opções de fechamento](evidencias/web_02_gestor_mes_aberto_com_e_sem_taxa.png)
 
@@ -41,7 +41,7 @@ O carregador e o portal SEMS são simulados. Os dados do repositório são sint�
 
 ## 2. Como executar
 
-Requisito: Python 3.10 ou superior.
+Requisito: Python 3.10 ou superior. O plano de testes é executado nas versões 3.10, 3.12 e 3.14.
 
 ```bash
 pip install -r requirements.txt
@@ -53,11 +53,11 @@ Os comandos são executados a partir da raiz do repositório.
 |---|---|
 | Interface web (gestor e morador) | `streamlit run src/app_web.py` |
 | Modo console | `python src/main.py` |
-| Plano de testes, 53 cenários | `python src/verificacao.py` |
+| Plano de testes, 56 cenários | `python src/verificacao.py` |
 | Regerar os gráficos de evidência | `python src/gerar_evidencias.py` |
 | Notebook executado | `notebooks/evidencias_ev_chargeops.ipynb` |
 
-O banco de dados (`dados/ev_chargeops.db`) é criado na primeira execução, já com a base de demonstração. Para recriá-la, use "Recriar a base de demonstração" no menu de simulação do console.
+A pasta `dados/` é criada na primeira execução, já com a base de demonstração: o banco SQLite (`dados/ev_chargeops.db`), a configuração, o registro de eventos e o histórico usado pela IA. Ela não é versionada. Para recriar a base, use "Recriar a base de demonstração" no menu de simulação do console.
 
 O plano de testes também roda sozinho no GitHub a cada envio de código. O resultado aparece no selo do topo desta página e na [aba Actions](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions).
 
@@ -108,9 +108,9 @@ Fatura = Σ(E_sessao × T) + Tx_admin
 
 ### 3.4 Dados
 
-As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos em um banco de dados relacional SQLite. O esquema está em [src/model/esquema.sql](src/model/esquema.sql). Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00).
+As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos em um banco de dados relacional SQLite. O esquema está em [src/model/esquema.sql](src/model/esquema.sql); no banco, as tabelas levam o nome no plural e em minúsculas (`units`, `users`, `rfid_cards`, `chargers`, `sessions`, `invoices`). Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00).
 
-As relações da Sprint 1 são chaves estrangeiras, e o próprio banco recusa dados incoerentes: uma sessão de cartão não cadastrado ou duas faturas da mesma unidade no mesmo mês não são gravadas.
+As relações da Sprint 1 são chaves estrangeiras, e o próprio banco recusa dados incoerentes: uma sessão de cartão não cadastrado ou duas faturas da mesma unidade no mesmo mês não são gravadas. O plano de testes confere as duas recusas.
 
 | Operação | Como o banco resolve |
 |---|---|
@@ -235,7 +235,7 @@ GoodWe-EV-ChargeOps/
 ├── requirements.txt
 ├── link_repositorio.txt
 ├── docs/                          documento e diagrama da Sprint 1
-├── dados/                         banco SQLite (criado na primeira execução), configuração, CSV e log
+├── dados/                         criada na primeira execução, fora do repositório: banco SQLite, configuração, CSV e log
 ├── src/
 │   ├── app_web.py                 entrada da interface web
 │   ├── main.py                    entrada do modo console
@@ -275,7 +275,7 @@ Tecnologias: Python, SQLite, pandas, NumPy, scikit-learn, matplotlib, Streamlit 
 | 1. Infraestrutura de dados | Banco de dados relacional (SQLite) com as seis tabelas do esquema, e os controllers de cadastro de unidade, usuário e cartão |
 | 2. Protocolos e telemetria | Simulador do carregador e conciliação diária com o export do SEMS |
 | 3. Regras financeiras e motores de IA | Rateio com fechamento mensal, auditoria e bloqueio; previsão de demanda e risco de sobrecarga; Síndico Virtual |
-| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 53 cenários, executado automaticamente a cada envio |
+| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 56 cenários, executado automaticamente a cada envio |
 
 ### Indicadores definidos na Sprint 1
 
@@ -302,7 +302,7 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 - **Avaliação temporal do modelo.** Treino no passado e teste no futuro, sem embaralhar os dias. O resultado é reportado junto com o limite dos dados.
 - **Base reproduzível.** Gerador com semente fixa, para que testes, gráficos e métricas se repitam em qualquer máquina.
 - **Tratamento de falhas externas.** Entradas do usuário são validadas antes do uso. A chamada à API da OpenAI tem limite de espera e cai para o modo simulado em caso de erro.
-- **Testes automáticos a cada envio.** Um fluxo do GitHub Actions instala as dependências em uma máquina limpa e executa o plano de testes. O script devolve código de erro quando um cenário falha, e o envio fica marcado como reprovado.
+- **Testes automáticos a cada envio.** Um fluxo do GitHub Actions instala as dependências em uma máquina limpa e executa o plano de testes em três versões do Python. O script devolve código de erro quando um cenário falha, e o envio fica marcado como reprovado.
 
 ---
 
@@ -310,7 +310,7 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 
 | Evidência | Arquivo |
 |---|---|
-| Plano de testes, 53 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
+| Plano de testes, 56 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
 | Execução automática do plano de testes a cada envio | [Aba Actions do repositório](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions) |
 | Sessão completa no console: gestor, morador, simulação e IA | [evidencias/console_demonstracao.txt](evidencias/console_demonstracao.txt) |
 | Notebook executado, com tabelas e gráficos | [notebooks/evidencias_ev_chargeops.ipynb](notebooks/evidencias_ev_chargeops.ipynb) |

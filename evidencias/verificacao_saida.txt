@@ -115,19 +115,29 @@ Recriando a base de demonstração...
         esperado: 9 | obtido: 9
 
 ------------------------------------------------------------------------------
-11. FILA DE PRIORIDADE DOS ALERTAS (HEAP)
+11. INTEGRIDADE DO BANCO DE DADOS
+------------------------------------------------------------------------------
+[OK] banco recusa sessão de cartão não cadastrado (chave estrangeira)
+        esperado: True | obtido: True
+[OK] banco recusa segunda fatura da mesma unidade no mesmo mês
+        esperado: True | obtido: True
+[OK] registro recusado não fica gravado
+        esperado: {} | obtido: {}
+
+------------------------------------------------------------------------------
+12. FILA DE PRIORIDADE DOS ALERTAS (HEAP)
 ------------------------------------------------------------------------------
 [OK] ordem de saída do heap
         esperado: [9, 8, 5, 2] | obtido: [9, 8, 5, 2]
 
 ------------------------------------------------------------------------------
-12. CONCILIAÇÃO COM O SEMS PORTAL
+13. CONCILIAÇÃO COM O SEMS PORTAL
 ------------------------------------------------------------------------------
 [OK] dias com diferença acima de 3% no histórico
         esperado: 3 | obtido: 3
 
 ------------------------------------------------------------------------------
-13. INTELIGÊNCIA ARTIFICIAL
+14. INTELIGÊNCIA ARTIFICIAL
 ------------------------------------------------------------------------------
 [OK] dias previstos
         esperado: 7 | obtido: 7
@@ -161,7 +171,7 @@ Recriando a base de demonstração...
 ------------------------------------------------------------------------------
 RESULTADO
 ------------------------------------------------------------------------------
-Cenários OK.......: 53
+Cenários OK.......: 56
 Cenários com falha: 0
 
 Recriando a base de demonstração para deixar os dados limpos...
