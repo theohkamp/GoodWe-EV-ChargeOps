@@ -30,6 +30,7 @@ COLUNAS_DEMANDA = ["indice_dia"] + COLUNAS_DIAS + ["kwh_ontem", "kwh_media_7d"]
 COLUNAS_RISCO = COLUNAS_DIAS + ["kwh_ontem", "kwh_media_7d"]
 ALPHAS_RIDGE = [0.01, 0.1, 1, 10, 100]
 LIMITE_PROBABILIDADE = 0.7           # acima disso o dia entra como risco alto
+LIMITE_DE_LACUNA = 2                 # ate 2 dias seguidos sem sessao contam como consumo zero
 
 
 # ----- SUBALGORITMOS DE PREPARACAO DOS DADOS
@@ -83,8 +84,25 @@ def energia_por_hora() -> dict:
     return tabela
 
 
+def fim_do_historico(datas: list) -> datetime:
+    # ultimo dia que entra na serie diaria. "datas" traz os dias com sessao, em ordem.
+    # Duas regras de qualidade dos dados:
+    # 1) o dia de hoje fica fora, porque ainda nao terminou;
+    # 2) um intervalo maior que LIMITE_DE_LACUNA dias sem nenhuma sessao e falta de coleta,
+    #    e nao consumo zero: a serie termina antes dele.
+    hoje = dados.hoje_texto()
+    ultimo = datetime.strptime(datas[0], dados.FORMATO_DATA)
+    for texto in datas:
+        dia = datetime.strptime(texto, dados.FORMATO_DATA)
+        dias_vazios = (dia - ultimo).days - 1
+        if texto >= hoje or dias_vazios > LIMITE_DE_LACUNA:
+            break
+        ultimo = dia
+    return ultimo
+
+
 def montar_tabela_diaria() -> pd.DataFrame:
-    # serie temporal diaria: uma linha por dia, do primeiro ao ultimo dia com sessao
+    # serie temporal diaria: uma linha por dia, do primeiro dia com sessao ate o fim do historico
     config = dados.carregar_config()
     sessoes = pd.read_csv(ARQUIVO_CSV)
     horas = energia_por_hora()
@@ -101,7 +119,7 @@ def montar_tabela_diaria() -> pd.DataFrame:
         sessoes_do_dia[datas[i]] += 1
 
     primeiro = datetime.strptime(datas[0], dados.FORMATO_DATA)
-    ultimo = datetime.strptime(datas[len(datas) - 1], dados.FORMATO_DATA)
+    ultimo = fim_do_historico(datas)
     total_dias = (ultimo - primeiro).days + 1
 
     colunas = {"data": [], "indice_dia": [], "dia_semana": [], "fim_de_semana": [],

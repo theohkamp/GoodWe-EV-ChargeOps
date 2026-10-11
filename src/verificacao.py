@@ -5,6 +5,8 @@ Problema..: Conferir as regras da Sprint 1 com cenarios de resultado conhecido.
             Executar a partir da raiz do repositorio:  python src/verificacao.py
             ATENCAO: o script recria a base de demonstracao no inicio e no fim.
 """
+import sys
+
 from controller import controle_gestor
 from controller import controle_sessao
 from model import alertas
@@ -159,6 +161,11 @@ secao("13. INTELIGÊNCIA ARTIFICIAL")
 previsao = ia_previsao.executar_previsao_completa()
 confere("dias previstos", 7, len(previsao["previsao_7_dias"]))
 confere("modelo de risco treinado", True, previsao["risco"]["treinado"])
+# a esta altura ja existe uma sessao gravada hoje (secao da sessao interrompida)
+confere("histórico da previsão usa só dias completos: a sessão de hoje fica fora", 131,
+        previsao["dias_de_historico"])
+confere("intervalo sem coleta encerra o histórico da previsão", "2026-06-02",
+        ia_previsao.fim_do_historico(["2026-06-01", "2026-06-02", "2026-06-09"]).strftime(dados.FORMATO_DATA))
 limite = previsao["analise_do_limite"]
 confere("análise do limite: precisão por dia igual à precisão estimada do modelo",
         previsao["precisao_estimada"], limite["modelo_por_dia"])
@@ -188,3 +195,7 @@ print(f"Cenários com falha: {total_falhas}")
 
 print("\nRecriando a base de demonstração para deixar os dados limpos...")
 controle_sessao.recriar_base()
+
+# codigo de saida 1 avisa quem executou o script (o GitHub Actions, por exemplo) que houve falha
+if total_falhas > 0:
+    sys.exit(1)
