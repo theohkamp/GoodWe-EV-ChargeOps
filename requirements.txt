@@ -1,6 +1,8 @@
-numpy
-pandas
-matplotlib
-scikit-learn
-openai
-streamlit
+# Versao minima: a testada no Python 3.10. Limite superior: a proxima versao principal,
+# que pode mudar o comportamento das bibliotecas.
+numpy>=2.2,<3
+pandas>=2.3,<4
+matplotlib>=3.10,<4
+scikit-learn>=1.7,<2
+openai>=3.28,<4
+streamlit>=1.65,<2

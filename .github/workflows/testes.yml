@@ -5,6 +5,8 @@ name: Testes
 on:
   push:                     # a cada envio, em qualquer ramo
   workflow_dispatch:        # permite rodar manualmente pela aba Actions
+  schedule:
+    - cron: "0 9 * * 1"     # toda segunda-feira: avisa se uma biblioteca nova quebrar o projeto
 
 permissions:
   contents: read            # o fluxo so precisa ler o repositorio
