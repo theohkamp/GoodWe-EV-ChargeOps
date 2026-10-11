@@ -150,7 +150,7 @@ Para suprir as limitações de conectividade e a falta de integração nativa co
 
 ### Diagrama de Arquitetura da Solução Proposta
 
-![Arquitetura da Solução](docs/Diagrama.svg)
+![Arquitetura da Solução](Diagrama.svg)
 
 ### Papel da IA na Solução
 

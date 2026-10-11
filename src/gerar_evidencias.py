@@ -6,6 +6,7 @@ Problema..: Salvar na pasta evidencias/ os graficos em PNG e uma conversa de
             Executar a partir da raiz do repositorio:  python src/gerar_evidencias.py
 """
 import os
+import random
 
 from controller import controle_gestor
 from controller import controle_ia
@@ -53,6 +54,7 @@ graficos.salvar(graficos.grafico_limite_dos_dados(previsao["analise_do_limite"],
 painel = controle_gestor.painel_do_mes(MES_DO_RANKING)
 graficos.salvar(graficos.grafico_ranking(painel["ranking"], MES_DO_RANKING),
                 PASTA + "/ranking_unidades.png")
+random.seed(42)                    # mesma curva a cada execucao
 leituras = telemetria.simular_leituras(180, 26, -1)
 graficos.salvar(graficos.grafico_potencia_da_sessao(leituras), PASTA + "/potencia_sessao.png")
 

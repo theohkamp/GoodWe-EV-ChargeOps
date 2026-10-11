@@ -27,11 +27,11 @@ Resposta: Há 5 alerta(s). Os mais graves:
 
 Pergunta: Qual a previsão de demanda para os próximos dias?
 Intenção: previsao_demanda
-Resposta: Previsão para os próximos 7 dias: 277,9 kWh no total (modelo Regressão Linear, R² 0,45, erro médio de 9,2 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
+Resposta: Previsão para os próximos 7 dias: 276,7 kWh no total (modelo Regressão Linear, R² 0,45, erro médio de 9,2 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
 
 Pergunta: Qual o melhor horário para carregar por 4 horas?
 Intenção: melhor_horario
-Resposta: Para uma recarga de 4 hora(s) hoje (sábado): à noite, o melhor é começar às 23h e terminar às 3h (demanda média de 0,1 kW); durante o dia, das 6h às 10h. Evite por volta das 11h, o pico do dia.
+Resposta: Para uma recarga de 4 hora(s) hoje (domingo): à noite, o melhor é começar às 23h e terminar às 3h (demanda média de 0,0 kW); durante o dia, das 6h às 10h. Evite por volta das 18h, o pico do dia.
 
 Pergunta: Me dê um resumo do condomínio em setembro
 Intenção: resumo_gestor

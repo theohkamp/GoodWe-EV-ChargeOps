@@ -28,7 +28,7 @@ O protótipo cobre o fluxo completo de uma recarga em condomínio, do cartão RF
 - **Banco de dados relacional** em SQLite, com as seis tabelas da Sprint 1 e chaves primárias e estrangeiras.
 - **Consumo individual** por unidade, somando todos os cartões RFID do apartamento.
 - **Rateio** pelo modelo da Sprint 1, `Fatura = Σ(E_sessao × T) + Tx_admin`, com fechamento mensal sem taxa ou com taxa administrativa.
-- **Consolidado mensal, auditoria da fatura e bloqueio automático** dos cartões de quem tem fatura vencida.
+- **Consolidado mensal, auditoria da fatura e bloqueio automático** dos cartões de quem tem fatura vencida. O consolidado pode ser baixado em CSV, para a administradora lançar os valores na cota condominial.
 - **Previsão de demanda e risco de sobrecarga** do quadro elétrico, com sugestão de janela de recarga fora do pico.
 - **Síndico Virtual**, que responde em linguagem natural sobre consumo, cobranças e anomalias usando os dados do sistema.
 - **Duas interfaces** sobre as mesmas regras: painel web responsivo para gestor e morador, que funciona no computador e no celular, e menu de console.
@@ -53,19 +53,27 @@ Os comandos são executados a partir da raiz do repositório.
 |---|---|
 | Interface web (gestor e morador) | `streamlit run src/app_web.py` |
 | Modo console | `python src/main.py` |
-| Plano de testes, 56 cenários | `python src/verificacao.py` |
+| Plano de testes, 59 cenários | `python src/verificacao.py` |
 | Regerar os gráficos de evidência | `python src/gerar_evidencias.py` |
 | Notebook executado | `notebooks/evidencias_ev_chargeops.ipynb` |
 
 A pasta `dados/` é criada na primeira execução, já com a base de demonstração: o banco SQLite (`dados/ev_chargeops.db`), a configuração, o registro de eventos e o histórico usado pela IA. Ela não é versionada. Para recriar a base, use "Recriar a base de demonstração" no menu de simulação do console.
+
+Na primeira execução da interface web, o Streamlit pode pedir um e-mail no terminal. Basta apertar Enter.
 
 O plano de testes também roda sozinho no GitHub a cada envio de código. O resultado aparece no selo do topo desta página e na [aba Actions](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions).
 
 **Síndico Virtual com LLM (opcional).** Sem configuração ele roda em modo simulado. Para usar o `gpt-4o-mini`, defina a chave antes de executar:
 
 ```bash
-set OPENAI_API_KEY=sua_chave        # Windows
-export OPENAI_API_KEY=sua_chave     # Linux e macOS
+# Windows, no Prompt de Comando
+set OPENAI_API_KEY=sua_chave
+
+# Windows, no PowerShell
+$env:OPENAI_API_KEY="sua_chave"
+
+# Linux e macOS
+export OPENAI_API_KEY=sua_chave
 ```
 
 ---
@@ -103,12 +111,12 @@ Fatura = Σ(E_sessao × T) + Tx_admin
 | Vários cartões por unidade | Até 10 cartões RFID somados na mesma fatura; o 11º é recusado no cadastro |
 | Unidade sem recarga no mês | Entra no consolidado como `ISENTO`, com valor zero |
 | Inadimplência | Fatura pendente e vencida bloqueia os cartões da unidade. A conferência é automática: ao abrir o sistema, após cada pagamento e na autorização de cada sessão |
-| Consolidado mensal | Uma linha por unidade, com o total do mês |
+| Consolidado mensal | Uma linha por unidade, com o total do mês. Pode ser exportado em CSV, pela interface web e pelo console |
 | Auditoria | Refaz a conta a partir das sessões e compara com o valor gravado. Gestor e morador veem a mesma composição |
 
 ### 3.4 Dados
 
-As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos em um banco de dados relacional SQLite. O esquema está em [src/model/esquema.sql](src/model/esquema.sql); no banco, as tabelas levam o nome no plural e em minúsculas (`units`, `users`, `rfid_cards`, `chargers`, `sessions`, `invoices`). Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00).
+As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos em um banco de dados relacional SQLite. O esquema está em [src/model/esquema.sql](src/model/esquema.sql); no banco, as tabelas levam o nome no plural e em minúsculas (`units`, `users`, `rfid_cards`, `chargers`, `sessions`, `invoices`). Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00). A fatura nasce `PENDING` no fechamento, como no exemplo, e aparece `PAID` na base porque o pagamento foi registrado.
 
 As relações da Sprint 1 são chaves estrangeiras, e o próprio banco recusa dados incoerentes: uma sessão de cartão não cadastrado ou duas faturas da mesma unidade no mesmo mês não são gravadas. O plano de testes confere as duas recusas.
 
@@ -121,13 +129,14 @@ As relações da Sprint 1 são chaves estrangeiras, e o próprio banco recusa da
 
 A configuração (tarifa, taxa e limites) fica em `dados/config.json`, e o registro de eventos, em `dados/registros.txt`.
 
-Campos acrescentados ao esquema original:
+Acréscimos ao esquema original:
 
 | Tabela | Campos | Para quê |
 |---|---|---|
 | `Session` | `potencia_media_kw`, `pico_kw`, `interrompida` | Curva de carga e alerta de sessão interrompida |
 | `Invoice` | `tarifa`, `taxa_admin`, `sessoes`, `fechado_em`, `vencimento`, `pago_em` | Auditoria, opção com ou sem taxa, inadimplência |
 | `Invoice.status` | valor `ISENTO`, além de `PENDING` e `PAID` | Unidade sem recarga no mês |
+| `sems_export`, tabela nova | `data`, `charger_id`, `energia_dia_kwh` | Export diário do SEMS Portal, usado na conciliação |
 
 **Base de demonstração:** 8 unidades, 10 usuários, 10 cartões, 2 carregadores, 288 sessões de 01/06 a 09/10/2026 e 32 faturas de quatro meses fechados. No gerador (`src/model/carga_inicial.py`), cada unidade recarrega em 80% a 92% dos seus dias habituais e em 4% dos demais; cada sessão dura de 120 a 240 minutos, com corrente de 20 a 30 A; 8% das sessões são interrompidas.
 
@@ -142,18 +151,21 @@ A IA faz parte do fluxo principal. A previsão alimenta o alerta de sobrecarga e
 Arquivo: `src/model/ia_previsao.py`.
 
 1. **Série diária** da energia entregue, uma linha por dia. Entram só dias completos e contínuos: o dia corrente fica fora, e um intervalo de mais de dois dias sem nenhuma sessão é tratado como falta de coleta, não como consumo zero.
-2. **Entradas:** tendência, dia da semana (uma coluna 0/1 por dia), energia do dia anterior e média dos 7 dias anteriores.
+2. **Entradas:** tendência, dia da semana (seis colunas 0/1, de segunda a sábado, com o domingo como referência), energia do dia anterior e média dos 7 dias anteriores.
 3. **Avaliação temporal:** treino nos primeiros 80% dos dias e teste nos 20% finais.
 4. **Modelos comparados:** regressão linear múltipla e Ridge, com `alpha` escolhido por validação cruzada. Fica o de menor RMSE no teste.
 5. **Curva de carga:** matriz 7 × 24 com a potência média por dia da semana e hora, usada para sugerir a janela de menor demanda.
 6. **Risco de sobrecarga:** regressão logística que estima a probabilidade de a demanda do dia ultrapassar o limite do quadro elétrico.
+7. **Previsão dos próximos 7 dias**, a partir do dia corrente. Ao abrir o sistema em um novo dia, o modelo é treinado de novo com os dias completos do histórico.
 
-Resultados na base de demonstração (131 dias, 27 de teste):
+Resultados do modelo de demanda na base de demonstração (131 dias, 27 de teste):
 
 | Modelo | MAE | RMSE | R² | Erro relativo |
 |---|---|---|---|---|
 | Regressão Linear (escolhido) | 9,25 kWh | 12,20 kWh | 0,454 | 25,7% |
 | Ridge (alpha = 1) | 9,34 kWh | 12,27 kWh | 0,448 | 25,9% |
+
+O classificador de risco usa 124 dias, porque os 7 primeiros não têm a média dos 7 dias anteriores. A divisão é aleatória, com 70% para treino e 30% para teste (38 dias):
 
 | Risco de sobrecarga | Acurácia | Precisão | Recall | F1 |
 |---|---|---|---|---|
@@ -207,7 +219,7 @@ O código segue o padrão MVC. As telas não contêm regra de negócio, e os mod
 
 ```
             VIEW                          CONTROLLER                         MODEL
-  src/view/view_web.py      ->   src/controller/controle_gestor.py   ->   src/model/dados.py            (banco SQLite, 6 tabelas)
+  src/view/view_web.py      ->   src/controller/controle_gestor.py   ->   src/model/dados.py            (banco SQLite: 6 tabelas e export do SEMS)
   src/view/view_console.py  ->   src/controller/controle_morador.py  ->   src/model/rateio.py           (fórmula, fechamento, auditoria, bloqueio)
   src/view/graficos.py      ->   src/controller/controle_sessao.py   ->   src/model/telemetria.py       (carregador simulado, SEMS)
                                  src/controller/controle_ia.py       ->   src/model/alertas.py          (fila de prioridade)
@@ -231,6 +243,7 @@ Correspondência com o diagrama da Sprint 1 ([docs/Diagrama.svg](docs/Diagrama.s
 ```
 GoodWe-EV-ChargeOps/
 ├── .github/workflows/testes.yml   plano de testes executado a cada envio
+├── .streamlit/config.toml         tema e aparência da interface web
 ├── README.md
 ├── requirements.txt
 ├── link_repositorio.txt
@@ -261,12 +274,13 @@ Tecnologias: Python, SQLite, pandas, NumPy, scikit-learn, matplotlib, Streamlit 
 
 | Planejado na Sprint 1 | Implementado | Justificativa |
 |---|---|---|
-| APIs REST de usuários e unidades | Controllers em Python, usados pelas duas interfaces e pelo Síndico Virtual | O protótipo é local e não tem cliente externo para consumir a API. Os controllers já expõem as mesmas operações e são o ponto em que a API seria publicada |
+| APIs REST de usuários e unidades | Controllers em Python, usados pelas duas interfaces | O protótipo é local e não tem cliente externo para consumir a API. Os controllers já expõem as mesmas operações e são o ponto em que a API seria publicada |
 | Decodificação Modbus via gateway IoT | Simulador do GW7K-HCA, com leituras por minuto | Sem acesso ao carregador fora do laboratório. O simulador produz as mesmas grandezas que a leitura Modbus entregaria |
 | Ingestão agendada do SEMS Portal | Export diário simulado e conciliação com erro absoluto e relativo | Sem credenciais da API do portal. A conciliação, que é o objetivo da integração, está implementada |
 | Prophet para séries temporais | Regressão linear e Ridge com variáveis de calendário e defasagem; regressão logística para o risco | Com quatro meses de histórico e padrão semanal, o modelo linear é interpretável e já atinge o teto de previsibilidade dos dados (seção 4.1). Modelos baseados em calendário, como o Prophet, tendem a esbarrar no mesmo teto |
 | Painel web do gestor | Interface web em Streamlit | Entrega o painel em Python, sem um front-end separado, com uma única base de código |
 | Aplicativo mobile do morador | Interface web responsiva, com a página do morador acessível pelo navegador do celular | A mesma interface se adapta à tela pequena: navegação no topo, indicadores em duas colunas e tabelas com as colunas principais primeiro. O aplicativo nativo fica como evolução |
+| Valor lançado no boleto da unidade | Consolidado mensal exportado em CSV, com uma linha por unidade | A emissão do boleto pertence ao sistema da administradora do condomínio. O arquivo entrega os valores por unidade prontos para esse lançamento |
 
 ### Plano de desenvolvimento, fase a fase
 
@@ -275,7 +289,7 @@ Tecnologias: Python, SQLite, pandas, NumPy, scikit-learn, matplotlib, Streamlit 
 | 1. Infraestrutura de dados | Banco de dados relacional (SQLite) com as seis tabelas do esquema, e os controllers de cadastro de unidade, usuário e cartão |
 | 2. Protocolos e telemetria | Simulador do carregador e conciliação diária com o export do SEMS |
 | 3. Regras financeiras e motores de IA | Rateio com fechamento mensal, auditoria e bloqueio; previsão de demanda e risco de sobrecarga; Síndico Virtual |
-| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 56 cenários, executado automaticamente a cada envio |
+| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 59 cenários, executado automaticamente a cada envio |
 
 ### Indicadores definidos na Sprint 1
 
@@ -295,14 +309,15 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 - **MVC com duas interfaces.** Telas, coordenação e regras ficam separadas. A mesma função de rateio atende a interface web e o console.
 - **Interface responsiva.** A navegação fica no topo da página, e uma folha de estilo (`src/view/estilo.css`) ajusta margens, títulos e indicadores em telas pequenas.
 - **SQLite como banco relacional.** É um banco em arquivo que já acompanha o Python: o protótipo roda sem instalar nem configurar um servidor, e o esquema continua sendo SQL padrão.
-- **SQL em um único módulo.** Só `src/model/dados.py` contém comandos SQL. As outras camadas recebem listas de dicionários, então a troca por um servidor de banco fica restrita a esse módulo. Os valores entram nos comandos como parâmetros, nunca concatenados ao texto, o que evita injeção de SQL.
+- **SQL em um único módulo.** Na aplicação, só `src/model/dados.py` contém comandos SQL. As outras camadas recebem listas de dicionários, então a troca por um servidor de banco fica restrita a esse módulo. Os valores entram nos comandos como parâmetros, nunca concatenados ao texto, o que evita injeção de SQL.
 - **Taxa administrativa por fechamento.** A Sprint 1 trata a taxa como opcional. A escolha é feita pelo gestor a cada fechamento, e a fatura registra a tarifa e a taxa aplicadas, o que mantém as faturas antigas auditáveis mesmo se a configuração mudar.
 - **Bloqueio conferido em três momentos.** Ao abrir o sistema, após cada pagamento e na autorização de cada sessão, para que o bloqueio não dependa de uma ação manual.
 - **Assistente ancorado em dados.** O Síndico Virtual não responde de memória: uma função consulta o sistema, e o modelo de linguagem só redige com o que recebeu. O modo simulado garante o funcionamento sem chave e sem internet.
-- **Avaliação temporal do modelo.** Treino no passado e teste no futuro, sem embaralhar os dias. O resultado é reportado junto com o limite dos dados.
-- **Base reproduzível.** Gerador com semente fixa, para que testes, gráficos e métricas se repitam em qualquer máquina.
+- **Avaliação temporal do modelo de demanda.** Treino no passado e teste no futuro, sem embaralhar os dias. O resultado é reportado junto com o limite dos dados. O classificador de risco usa divisão aleatória, e seus números devem ser lidos com essa ressalva.
+- **Base reproduzível.** Gerador com semente fixa, para que a base, os testes e as métricas se repitam em qualquer máquina.
+- **Dependências com faixa de versão.** O `requirements.txt` indica a versão mínima testada de cada biblioteca e limita a próxima versão principal.
 - **Tratamento de falhas externas.** Entradas do usuário são validadas antes do uso. A chamada à API da OpenAI tem limite de espera e cai para o modo simulado em caso de erro.
-- **Testes automáticos a cada envio.** Um fluxo do GitHub Actions instala as dependências em uma máquina limpa e executa o plano de testes em três versões do Python. O script devolve código de erro quando um cenário falha, e o envio fica marcado como reprovado.
+- **Testes automáticos a cada envio.** Um fluxo do GitHub Actions instala as dependências em uma máquina limpa e executa o plano de testes em três versões do Python. O script devolve código de erro quando um cenário falha, e o envio fica marcado como reprovado. Uma execução semanal agendada avisa se uma versão nova de alguma biblioteca quebrar o projeto.
 
 ---
 
@@ -310,7 +325,7 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 
 | Evidência | Arquivo |
 |---|---|
-| Plano de testes, 56 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
+| Plano de testes, 59 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
 | Execução automática do plano de testes a cada envio | [Aba Actions do repositório](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions) |
 | Sessão completa no console: gestor, morador, simulação e IA | [evidencias/console_demonstracao.txt](evidencias/console_demonstracao.txt) |
 | Notebook executado, com tabelas e gráficos | [notebooks/evidencias_ev_chargeops.ipynb](notebooks/evidencias_ev_chargeops.ipynb) |
@@ -352,8 +367,8 @@ Gráficos: [consumo_diario.png](evidencias/consumo_diario.png), [curva_carga_hor
 ## 9. Limitações e próximos passos
 
 - **Carregador e SEMS simulados.** O próximo passo é ler o equipamento real por Modbus/RS-485 e coletar os dados pela API do portal. A troca fica restrita ao módulo de telemetria.
-- **Banco em arquivo local.** O SQLite atende a um condomínio, com um único servidor de aplicação. Na base de demonstração as telas respondem em menos de 0,1 s. Para vários condomínios e muitos acessos simultâneos, o mesmo esquema deve ir para um servidor de banco de dados, como o PostgreSQL.
-- **Modelo preditivo.** Avaliado com quatro meses de dados sintéticos. A precisão diária precisa ser medida de novo com dados reais.
+- **Banco em arquivo local.** O SQLite atende a um condomínio, com um único servidor de aplicação. Na base de demonstração as telas respondem em cerca de 0,1 s. Para vários condomínios e muitos acessos simultâneos, o mesmo esquema deve ir para um servidor de banco de dados, como o PostgreSQL.
+- **Modelo preditivo.** Avaliado com quatro meses de dados sintéticos. A precisão diária precisa ser medida de novo com dados reais. Na base de demonstração o histórico termina em 09/10/2026: a previsão de datas posteriores é feita vários dias à frente e perde confiança com a distância.
 - **Sessão registrada após o fechamento.** Aparece como divergência na auditoria; falta o fluxo de fatura complementar.
 - **Autenticação.** O protótipo permite escolher o perfil de gestor ou de morador sem senha.
 

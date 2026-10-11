@@ -23,6 +23,7 @@ Opção desejada...: 1
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 1
 
@@ -77,6 +78,7 @@ ALERTAS (do mais grave para o mais leve)
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 9
 
@@ -103,6 +105,7 @@ Opção COM taxa......: R$ 114,00 + R$ 0,00 = R$ 114,00
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 9
 
@@ -129,6 +132,7 @@ Opção COM taxa......: R$ 11,78 + R$ 2,00 = R$ 13,78
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 5
 Número da fatura...: 9001
@@ -163,6 +167,7 @@ Auditoria...........: CONFERE com as sessões registradas
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 6
 
@@ -206,6 +211,7 @@ Data        Carreg.  Sessões kWh  SEMS kWh   Erro abs.  Erro rel.  Situação
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 10
 
@@ -237,6 +243,33 @@ Margem de erro de leitura RFID (meta: < 1%)
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
+        
+Opção desejada...: 11
+
+Meses com sessões:
+  1 - 06-2026
+  2 - 07-2026
+  3 - 08-2026
+  4 - 09-2026
+  5 - 10-2026
+Mês desejado...: 1
+
+Consolidado de 06-2026 gravado em dados/consolidado_06-2026.csv.
+
+    PAINEL DO GESTOR
+    0 - VOLTAR
+    1 - Painel do mês (resumo, consolidado e alertas)
+    2 - Fechar mês (com taxa ou sem taxa)
+    3 - Registrar pagamento
+    4 - Atualizar bloqueios de inadimplentes
+    5 - Auditar fatura
+    6 - Conciliar com o SEMS Portal
+    7 - Cadastros
+    8 - Configurar tarifa e taxa
+    9 - Simulador de rateio
+    10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 0
 
@@ -338,10 +371,10 @@ B2C3D4E5   Maria Silva         ativo
 Opção desejada...: 3
 Duração da recarga em horas (1 a 8)...: 3
 
-Hoje é sábado. Para 3 hora(s) de recarga:
-À noite.............: das 23h às 2h (demanda média de 0,1 kW)
+Hoje é domingo. Para 3 hora(s) de recarga:
+À noite.............: das 23h às 2h (demanda média de 0,0 kW)
 Durante o dia.......: das 6h às 9h (demanda média de 0,0 kW)
-Evite...............: por volta das 11h (pico de 3,2 kW)
+Evite...............: por volta das 18h (pico de 2,5 kW)
 
     INTERFACE DO MORADOR - Apto 42 / Torre A
     0 - VOLTAR
@@ -436,25 +469,25 @@ FLUXO DA SESSÃO DE RECARGA
 1. RFID
    Cartão A1B2C3D4 lido e autorizado (Authorize: Accepted).
 2. Sessão iniciada
-   StartTransaction: carregador GW-001, início 2026-10-10 22:50, corrente negociada de 25 A.
+   StartTransaction: carregador GW-001, início 2026-10-11 16:06, corrente negociada de 23 A.
 3. Energia medida (kWh)
-   StopTransaction: 8,21 kWh em 90 min (média 5,47 kW, pico 5,89 kW).
+   StopTransaction: 7,55 kWh em 90 min (média 5,04 kW, pico 5,42 kW).
 4. Associação à unidade
    Sessão 5289 associada a Apto 42 / Torre A.
 5. Rateio
-   8,21 kWh x R$ 0,95 = R$ 7,80. A taxa administrativa, quando ativada, entra no fechamento do mês.
+   7,55 kWh x R$ 0,95 = R$ 7,17. A taxa administrativa, quando ativada, entra no fechamento do mês.
 6. Painel e Insights
-   Apto 42 acumula 62,24 kWh em 10-2026 (R$ 59,13 de consumo).
+   Apto 42 acumula 61,58 kWh em 10-2026 (R$ 58,50 de consumo).
 
 LEITURAS DO CARREGADOR (amostra)
 Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
 ------------------------------------------------------------------------------
-1       227,30    24,90       5,66         0,09        
-16      231,40    24,70       5,72         1,53        
-31      228,90    25,20       5,77         2,97        
-46      232,80    25,20       5,87         4,41        
-61      228,70    25,20       5,76         5,85        
-76      231,80    25,20       5,84         7,28        
+1       230,30    23,10       5,32         0,09        
+16      232,50    23,00       5,35         1,41        
+31      230,00    22,90       5,27         2,74        
+46      227,80    22,70       5,17         4,06        
+61      228,00    23,20       5,29         5,38        
+76      231,70    22,90       5,31         6,71        
 
     SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
     0 - VOLTAR
@@ -490,23 +523,23 @@ FLUXO DA SESSÃO DE RECARGA
 1. RFID
    Cartão A7B8C9D0 lido e autorizado (Authorize: Accepted).
 2. Sessão iniciada
-   StartTransaction: carregador GW-002, início 2026-10-10 22:50, corrente negociada de 26 A.
+   StartTransaction: carregador GW-002, início 2026-10-11 16:06, corrente negociada de 25 A.
 3. Energia medida (kWh)
-   StopTransaction: 5,99 kWh em 60 min (média 5,99 kW, pico 6,12 kW). Sessão interrompida: vale o volume validado até a queda.
+   StopTransaction: 5,75 kWh em 60 min (média 5,75 kW, pico 5,87 kW). Sessão interrompida: vale o volume validado até a queda.
 4. Associação à unidade
    Sessão 5290 associada a Apto 21 / Torre B.
 5. Rateio
-   5,99 kWh x R$ 0,95 = R$ 5,69. A taxa administrativa, quando ativada, entra no fechamento do mês.
+   5,75 kWh x R$ 0,95 = R$ 5,46. A taxa administrativa, quando ativada, entra no fechamento do mês.
 6. Painel e Insights
-   Apto 21 acumula 74,68 kWh em 10-2026 (R$ 70,95 de consumo).
+   Apto 21 acumula 74,44 kWh em 10-2026 (R$ 70,72 de consumo).
 
 LEITURAS DO CARREGADOR (amostra)
 Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
 ------------------------------------------------------------------------------
-1       227,40    26,20       5,96         0,10        
-16      228,40    26,00       5,94         1,59        
-31      231,20    26,00       6,01         3,08        
-46      231,40    25,70       5,95         4,58        
+1       233,00    25,10       5,85         0,10        
+16      230,90    25,20       5,82         1,53        
+31      232,10    24,80       5,76         2,97        
+46      227,00    25,20       5,72         4,42        
 
     SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
     0 - VOLTAR
@@ -564,16 +597,16 @@ Recall..............: 40,0%
 F1-score............: 0,545
 Matriz de confusão..: [[22, 1], [9, 6]]
 
-PREVISÃO PARA OS PRÓXIMOS 7 DIAS
+PREVISÃO PARA OS PRÓXIMOS 7 DIAS (a partir de hoje; histórico até 2026-10-09)
 Data        Dia       kWh previstos  Prob. sobrecarga  Risco   
 ------------------------------------------------------------------------------
-2026-10-10  sábado    34,80          26%               normal  
 2026-10-11  domingo   26,10          14%               normal  
 2026-10-12  segunda   48,80          35%               normal  
 2026-10-13  terça     36,70          25%               normal  
 2026-10-14  quarta    42,90          36%               normal  
 2026-10-15  quinta    53,50          80%               ALTO    
 2026-10-16  sexta     35,10          19%               normal  
+2026-10-17  sábado    33,60          28%               normal  
 
     INTELIGÊNCIA ARTIFICIAL [Síndico Virtual em modo: simulado]
     0 - VOLTAR
@@ -594,12 +627,12 @@ Você: Teve algum problema este mês?
 Síndico Virtual [simulado]: Há 6 alerta(s). Os mais graves:
 - Apto 32: fatura 9019 de 08-2026 (R$ 176,86) vencida em 2026-10-01. Cartões da unidade bloqueados.
 - Risco de ultrapassar 10 kW no quadro em: quinta 2026-10-15 (80%).
-- Tentativa de recarga com cartão bloqueado em 2026-10-10 22:50: D4E5F6A7 no carregador GW-001.
+- Tentativa de recarga com cartão bloqueado em 2026-10-11 16:06: D4E5F6A7 no carregador GW-001.
 - Tentativa de recarga com cartão bloqueado em 2026-10-05 19:20: D4E5F6A7 no carregador GW-002.
 - 2026-10-08 / GW-002: sessões somam 24,44 kWh e o SEMS registra 25,54 kWh (diferença de 4,3%).
 
 Você: Qual a previsão de demanda?
-Síndico Virtual [simulado]: Previsão para os próximos 7 dias: 277,9 kWh no total (modelo Regressão Linear, R² 0,45, erro médio de 9,2 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
+Síndico Virtual [simulado]: Previsão para os próximos 7 dias: 276,7 kWh no total (modelo Regressão Linear, R² 0,45, erro médio de 9,2 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
 
 Você: SAIR
 
@@ -636,6 +669,7 @@ Opção desejada...: 1
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 2
 
@@ -655,12 +689,12 @@ Opção desejada...: 2
 Mês 10-2026 fechado com taxa de R$ 2,00.
 Fatura  Unidade   kWh       Taxa R$  Total R$   Status   
 ------------------------------------------------------------------------------
-9033    Apto 42   62,24     2,00     61,13      PENDING  
+9033    Apto 42   61,58     2,00     60,50      PENDING  
 9034    Apto 41   41,50     2,00     41,42      PENDING  
 9035    Apto 32   0,00      0,00     0,00       ISENTO   
 9036    Apto 31   25,12     2,00     25,86      PENDING  
 9037    Apto 22   54,76     2,00     54,02      PENDING  
-9038    Apto 21   74,68     2,00     72,95      PENDING  
+9038    Apto 21   74,44     2,00     72,72      PENDING  
 9039    Apto 12   28,71     2,00     29,27      PENDING  
 9040    Apto 11   18,84     2,00     19,90      PENDING  
 
@@ -676,6 +710,7 @@ Fatura  Unidade   kWh       Taxa R$  Total R$   Status
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 3
 
@@ -684,13 +719,13 @@ Fatura  Unidade   Mês       Total R$   Vencimento
 ------------------------------------------------------------------------------
 9019    Apto 32   08-2026   176,86     2026-10-01  
 9027    Apto 32   09-2026   122,21     2026-10-31  
-9033    Apto 42   10-2026   61,13      2026-11-09  
-9034    Apto 41   10-2026   41,42      2026-11-09  
-9036    Apto 31   10-2026   25,86      2026-11-09  
-9037    Apto 22   10-2026   54,02      2026-11-09  
-9038    Apto 21   10-2026   72,95      2026-11-09  
-9039    Apto 12   10-2026   29,27      2026-11-09  
-9040    Apto 11   10-2026   19,90      2026-11-09  
+9033    Apto 42   10-2026   60,50      2026-11-10  
+9034    Apto 41   10-2026   41,42      2026-11-10  
+9036    Apto 31   10-2026   25,86      2026-11-10  
+9037    Apto 22   10-2026   54,02      2026-11-10  
+9038    Apto 21   10-2026   72,72      2026-11-10  
+9039    Apto 12   10-2026   29,27      2026-11-10  
+9040    Apto 11   10-2026   19,90      2026-11-10  
 Número da fatura paga (0 cancela)...: 9019
 Pagamento da fatura 9019 registrado. 1 cartão(ões) desbloqueado(s).
 
@@ -706,6 +741,7 @@ Pagamento da fatura 9019 registrado. 1 cartão(ões) desbloqueado(s).
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 3
 
@@ -713,13 +749,13 @@ FATURAS PENDENTES
 Fatura  Unidade   Mês       Total R$   Vencimento  
 ------------------------------------------------------------------------------
 9027    Apto 32   09-2026   122,21     2026-10-31  
-9033    Apto 42   10-2026   61,13      2026-11-09  
-9034    Apto 41   10-2026   41,42      2026-11-09  
-9036    Apto 31   10-2026   25,86      2026-11-09  
-9037    Apto 22   10-2026   54,02      2026-11-09  
-9038    Apto 21   10-2026   72,95      2026-11-09  
-9039    Apto 12   10-2026   29,27      2026-11-09  
-9040    Apto 11   10-2026   19,90      2026-11-09  
+9033    Apto 42   10-2026   60,50      2026-11-10  
+9034    Apto 41   10-2026   41,42      2026-11-10  
+9036    Apto 31   10-2026   25,86      2026-11-10  
+9037    Apto 22   10-2026   54,02      2026-11-10  
+9038    Apto 21   10-2026   72,72      2026-11-10  
+9039    Apto 12   10-2026   29,27      2026-11-10  
+9040    Apto 11   10-2026   19,90      2026-11-10  
 Número da fatura paga (0 cancela)...: 9027
 Pagamento da fatura 9027 registrado.
 
@@ -735,6 +771,7 @@ Pagamento da fatura 9027 registrado.
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 4
 
@@ -754,6 +791,7 @@ Unidades com fatura vencida:
     8 - Configurar tarifa e taxa
     9 - Simulador de rateio
     10 - Indicadores da Sprint 1
+    11 - Exportar o consolidado do mês (CSV)
         
 Opção desejada...: 0
 

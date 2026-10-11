@@ -103,6 +103,10 @@ Recriando a base de demonstração...
         esperado: 979.35 | obtido: 979.35
 [OK] auditoria da fatura 9001 confere
         esperado: True | obtido: True
+[OK] consolidado em CSV: cabeçalho e uma linha por unidade
+        esperado: 9 | obtido: 9
+[OK] consolidado em CSV: linha da fatura 9001
+        esperado: 9001;Apto 42;Torre A;06-2026;6;120,00;0,95;0,00;114,00;PAID;2026-07-31 | obtido: 9001;Apto 42;Torre A;06-2026;6;120,00;0,95;0,00;114,00;PAID;2026-07-31
 [OK] indicador da Sprint 1: precisão do faturamento (todas as faturas conferem)
         esperado: 1.0 | obtido: 1.0
 [OK] auditoria acusa valor alterado à mão
@@ -141,6 +145,8 @@ Recriando a base de demonstração...
 ------------------------------------------------------------------------------
 [OK] dias previstos
         esperado: 7 | obtido: 7
+[OK] a previsão começa hoje
+        esperado: 2026-10-11 | obtido: 2026-10-11
 [OK] modelo de risco treinado
         esperado: True | obtido: True
 [OK] histórico da previsão usa só dias completos: a sessão de hoje fica fora
@@ -171,7 +177,7 @@ Recriando a base de demonstração...
 ------------------------------------------------------------------------------
 RESULTADO
 ------------------------------------------------------------------------------
-Cenários OK.......: 56
+Cenários OK.......: 59
 Cenários com falha: 0
 
 Recriando a base de demonstração para deixar os dados limpos...
