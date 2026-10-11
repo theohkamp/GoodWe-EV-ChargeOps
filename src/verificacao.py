@@ -5,6 +5,7 @@ Problema..: Conferir as regras da Sprint 1 com cenarios de resultado conhecido.
             Executar a partir da raiz do repositorio:  python src/verificacao.py
             ATENCAO: o script recria a base de demonstracao no inicio e no fim.
 """
+import sqlite3
 import sys
 
 from controller import controle_gestor
@@ -32,6 +33,15 @@ def confere(descricao: str, esperado, obtido) -> None:
         total_falhas += 1
     print(f"[{situacao}] {descricao}")
     print(f"        esperado: {esperado} | obtido: {obtido}")
+
+
+def banco_recusa(nome: str, registro: dict) -> bool:
+    # tenta gravar um registro incoerente e devolve True quando o banco recusa
+    try:
+        dados.inserir(nome, registro)
+    except sqlite3.IntegrityError:
+        return True
+    return False
 
 
 def secao(texto: str) -> None:
@@ -140,7 +150,19 @@ for numero in range(12):
         aceitos += 1
 confere("cartões aceitos para o Apto 31, que já tinha 1", 9, aceitos)
 
-secao("11. FILA DE PRIORIDADE DOS ALERTAS (HEAP)")
+secao("11. INTEGRIDADE DO BANCO DE DADOS")
+sessao_sem_cartao = {"id": 99999, "rfid_uid": "NAOEXISTE", "charger_id": "GW-001",
+                     "start_time": "2026-06-01 10:00", "end_time": "2026-06-01 11:00",
+                     "kwh_delivered": 1.0, "potencia_media_kw": 1.0, "pico_kw": 1.0, "interrompida": False}
+confere("banco recusa sessão de cartão não cadastrado (chave estrangeira)", True,
+        banco_recusa("sessions", sessao_sem_cartao))
+fatura_repetida = dados.buscar_registro("invoices", "id", 9001)
+fatura_repetida["id"] = 99999
+confere("banco recusa segunda fatura da mesma unidade no mesmo mês", True,
+        banco_recusa("invoices", fatura_repetida))
+confere("registro recusado não fica gravado", {}, dados.buscar_registro("sessions", "id", 99999))
+
+secao("12. FILA DE PRIORIDADE DOS ALERTAS (HEAP)")
 heap = []
 for prioridade in (5, 9, 2, 8):
     alertas.inserir_alerta(heap, prioridade, "TESTE", "alerta de teste")
@@ -149,7 +171,7 @@ for alerta in alertas.esvaziar_em_ordem(heap):
     ordem.append(alerta["prioridade"])
 confere("ordem de saída do heap", [9, 8, 5, 2], ordem)
 
-secao("12. CONCILIAÇÃO COM O SEMS PORTAL")
+secao("13. CONCILIAÇÃO COM O SEMS PORTAL")
 divergentes = 0
 for mes in dados.meses_com_sessoes():
     for linha in telemetria.conciliar_sems(mes):
@@ -157,7 +179,7 @@ for mes in dados.meses_com_sessoes():
             divergentes += 1
 confere("dias com diferença acima de 3% no histórico", 3, divergentes)
 
-secao("13. INTELIGÊNCIA ARTIFICIAL")
+secao("14. INTELIGÊNCIA ARTIFICIAL")
 previsao = ia_previsao.executar_previsao_completa()
 confere("dias previstos", 7, len(previsao["previsao_7_dias"]))
 confere("modelo de risco treinado", True, previsao["risco"]["treinado"])

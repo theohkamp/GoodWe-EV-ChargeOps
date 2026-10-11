@@ -7,5 +7,5 @@ venv/
 .vscode/
 .idea/
 
-# banco de dados SQLite: criado na primeira execucao
-dados/*.db
+# pasta criada na primeira execucao: banco SQLite, configuracao, log, historico e previsao
+dados/

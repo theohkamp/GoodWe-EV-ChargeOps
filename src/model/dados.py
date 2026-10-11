@@ -322,10 +322,6 @@ def mudar_status_do_cartao(uid: str, ativo: bool) -> None:
 
 
 # ----- SUBALGORITMOS DE CONSULTA
-def usuarios_da_unidade(unit_id: int) -> list:
-    return filtrar_registros("users", "unit_id", unit_id)
-
-
 def cartoes_da_unidade(unit_id: int) -> list:
     # unifica todos os cartoes dos usuarios da mesma unidade
     return consultar("""SELECT rfid_cards.*

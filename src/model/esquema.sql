@@ -2,6 +2,12 @@
 -- As seis tabelas definidas na Sprint 1, com os mesmos nomes de campos,
 -- mais a tabela com o export diario do SEMS Portal.
 -- PRIMARY KEY identifica cada registro; REFERENCES liga uma tabela a outra.
+--
+-- Correspondencia com o documento da Sprint 1 (nomes das tabelas no plural, em minusculas):
+--   Unit -> units    User -> users    RFID_Card -> rfid_cards
+--   Charger -> chargers    Session -> sessions    Invoice -> invoices
+-- Tipos: String -> TEXT, Float -> REAL, Boolean -> BOOLEAN.
+-- Datetime e guardado como TEXT no formato "AAAA-MM-DD HH:MM", o mesmo dos exemplos da Sprint 1.
 
 CREATE TABLE IF NOT EXISTS units (
     id     INTEGER PRIMARY KEY,
