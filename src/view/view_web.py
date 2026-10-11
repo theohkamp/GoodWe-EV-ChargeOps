@@ -443,8 +443,9 @@ def pagina_previsao() -> None:
     colunas[1].metric("R²", decimal(metricas["r2"], 3))
     colunas[2].metric("MAE", decimal(metricas["mae"], 1) + " kWh/dia")
     colunas[3].metric("Precisão estimada", percentual(previsao["precisao_estimada"], 1))
-    st.caption(f"Histórico de {previsao['dias_de_historico']} dias: {previsao['dias_treino']} de treino "
-               f"(passado) e {previsao['dias_teste']} de teste (futuro). Treinado em {previsao['gerado_em']}.")
+    st.caption(f"Histórico de {previsao['dias_de_historico']} dias completos: {previsao['dias_treino']} de treino "
+               f"(passado) e {previsao['dias_teste']} de teste (futuro). As sessões de hoje entram no treino "
+               f"a partir de amanhã. Treinado em {previsao['gerado_em']}.")
 
     linhas = []
     for nome in ("Regressão Linear", "Ridge"):

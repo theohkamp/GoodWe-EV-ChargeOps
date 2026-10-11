@@ -135,8 +135,9 @@ def grafico_previsao_7_dias(previsoes: list):
 def grafico_limite_dos_dados(limite: dict, meta: float):
     # precisao do modelo comparada com as duas referencias e com a meta da Sprint 1
     fig, ax = nova_figura("Precisão da previsão e o limite dos dados simulados", "", "precisão (%)")
-    rotulos = ["modelo\npor dia", "teto do\ncalendário", "sabendo as\nrecargas do dia",
-               f"modelo\npor semana ({limite['semanas_de_teste']} sem.)"]
+    # rotulos em ate tres linhas, para nao encostarem um no outro
+    rotulos = ["modelo\npor dia", "teto do\ncalendário", "sabendo as\nrecargas\ndo dia",
+               f"modelo\npor semana\n({limite['semanas_de_teste']} sem.)"]
     valores = [limite["modelo_por_dia"] * 100, limite["teto_do_calendario"] * 100,
                limite["sabendo_as_recargas"] * 100, limite["modelo_por_semana"] * 100]
     cores = [COR_PRINCIPAL, COR_APOIO, COR_APOIO, COR_PRINCIPAL]

@@ -546,8 +546,8 @@ def mostrar_limite_dos_dados(previsao: dict) -> None:
 
 
 def mostrar_metricas(previsao: dict) -> None:
-    print(f"\nHistórico usado.....: {previsao['dias_de_historico']} dias "
-          f"({previsao['dias_treino']} de treino e {previsao['dias_teste']} de teste)")
+    print(f"\nHistórico usado.....: {previsao['dias_de_historico']} dias completos "
+          f"({previsao['dias_treino']} de treino e {previsao['dias_teste']} de teste); o dia de hoje fica fora")
     print("\nMODELO              MAE (kWh)   RMSE (kWh)   R²       Erro relativo")
     print(LINHA)
     linear = previsao["metricas_linear"]
