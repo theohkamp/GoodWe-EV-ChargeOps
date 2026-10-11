@@ -6,3 +6,6 @@ venv/
 .env
 .vscode/
 .idea/
+
+# banco de dados SQLite: criado na primeira execucao
+dados/*.db

@@ -22,7 +22,7 @@ def configuracao() -> dict:
 
 
 def nome_da_unidade(unit_id: int) -> str:
-    unidade = dados.buscar(dados.carregar_tabela("units"), "id", unit_id)
+    unidade = dados.buscar_registro("units", "id", unit_id)
     if unidade == {}:
         return "?"
     return unidade["name"]
@@ -110,7 +110,7 @@ def unidades_inadimplentes() -> list:
 def faturas_pendentes() -> list:
     unidades = dados.carregar_tabela("units")
     linhas = []
-    for fatura in dados.filtrar(dados.carregar_tabela("invoices"), "status", "PENDING"):
+    for fatura in dados.filtrar_registros("invoices", "status", "PENDING"):
         unidade = dados.buscar(unidades, "id", fatura["unit_id"])
         linhas.append({"fatura": fatura["id"], "unidade": unidade["name"], "mes": fatura["month"],
                        "total": fatura["total_value"], "vencimento": fatura["vencimento"]})

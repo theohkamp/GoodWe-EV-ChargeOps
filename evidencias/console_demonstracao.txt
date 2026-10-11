@@ -436,25 +436,25 @@ FLUXO DA SESSÃO DE RECARGA
 1. RFID
    Cartão A1B2C3D4 lido e autorizado (Authorize: Accepted).
 2. Sessão iniciada
-   StartTransaction: carregador GW-001, início 2026-10-10 20:09, corrente negociada de 30 A.
+   StartTransaction: carregador GW-001, início 2026-10-10 20:56, corrente negociada de 24 A.
 3. Energia medida (kWh)
-   StopTransaction: 9,85 kWh em 90 min (média 6,57 kW, pico 7,00 kW).
+   StopTransaction: 7,88 kWh em 90 min (média 5,25 kW, pico 5,64 kW).
 4. Associação à unidade
    Sessão 5289 associada a Apto 42 / Torre A.
 5. Rateio
-   9,85 kWh x R$ 0,95 = R$ 9,36. A taxa administrativa, quando ativada, entra no fechamento do mês.
+   7,88 kWh x R$ 0,95 = R$ 7,49. A taxa administrativa, quando ativada, entra no fechamento do mês.
 6. Painel e Insights
-   Apto 42 acumula 63,88 kWh em 10-2026 (R$ 60,69 de consumo).
+   Apto 42 acumula 61,91 kWh em 10-2026 (R$ 58,81 de consumo).
 
 LEITURAS DO CARREGADOR (amostra)
 Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
 ------------------------------------------------------------------------------
-1       228,30    30,10       6,87         0,12        
-16      232,30    29,90       6,95         1,84        
-31      231,80    30,10       6,98         3,56        
-46      232,70    29,80       6,93         5,29        
-61      229,50    30,00       6,88         7,02        
-76      227,00    29,80       6,76         8,74        
+1       228,50    24,10       5,51         0,09        
+16      227,30    24,00       5,46         1,47        
+31      230,50    24,10       5,55         2,85        
+46      232,60    23,80       5,54         4,24        
+61      229,60    24,10       5,53         5,61        
+76      227,30    24,10       5,48         6,99        
 
     SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
     0 - VOLTAR
@@ -490,23 +490,23 @@ FLUXO DA SESSÃO DE RECARGA
 1. RFID
    Cartão A7B8C9D0 lido e autorizado (Authorize: Accepted).
 2. Sessão iniciada
-   StartTransaction: carregador GW-002, início 2026-10-10 20:09, corrente negociada de 30 A.
+   StartTransaction: carregador GW-002, início 2026-10-10 20:56, corrente negociada de 24 A.
 3. Energia medida (kWh)
-   StopTransaction: 6,90 kWh em 60 min (média 6,90 kW, pico 7,00 kW). Sessão interrompida: vale o volume validado até a queda.
+   StopTransaction: 5,53 kWh em 60 min (média 5,52 kW, pico 5,66 kW). Sessão interrompida: vale o volume validado até a queda.
 4. Associação à unidade
    Sessão 5290 associada a Apto 21 / Torre B.
 5. Rateio
-   6,90 kWh x R$ 0,95 = R$ 6,55. A taxa administrativa, quando ativada, entra no fechamento do mês.
+   5,53 kWh x R$ 0,95 = R$ 5,25. A taxa administrativa, quando ativada, entra no fechamento do mês.
 6. Painel e Insights
-   Apto 21 acumula 75,59 kWh em 10-2026 (R$ 71,81 de consumo).
+   Apto 21 acumula 74,22 kWh em 10-2026 (R$ 70,51 de consumo).
 
 LEITURAS DO CARREGADOR (amostra)
 Minuto  Tensão V  Corrente A  Potência kW  Energia kWh 
 ------------------------------------------------------------------------------
-1       231,20    29,70       6,87         0,11        
-16      232,20    29,90       6,94         1,84        
-31      227,80    30,20       6,88         3,56        
-46      228,50    29,90       6,83         5,29        
+1       228,00    23,90       5,45         0,09        
+16      230,60    23,90       5,51         1,47        
+31      229,40    24,10       5,53         2,85        
+46      229,40    23,90       5,48         4,23        
 
     SIMULAÇÃO DO CARREGADOR GOODWE HCA G2
     0 - VOLTAR
@@ -542,16 +542,16 @@ Histórico usado.....: 132 dias (105 de treino e 27 de teste)
 
 MODELO              MAE (kWh)   RMSE (kWh)   R²       Erro relativo
 ------------------------------------------------------------------------------
-Regressão Linear    9,46        12,30        0,424    26,1%
-Ridge (alpha=1)     9,43        12,33        0,422    26,0%
+Regressão Linear    9,59        12,50        0,418    26,5%
+Ridge (alpha=1)     9,56        12,52        0,415    26,4%
 ------------------------------------------------------------------------------
 Modelo escolhido....: Regressão Linear (menor RMSE no período de teste)
-Precisão estimada...: 73,9% (1 - erro relativo)
+Precisão estimada...: 73,5% (1 - erro relativo)
 
 DE ONDE VEM O ERRO (precisão no período de teste; meta da Sprint 1: 85%)
-Modelo, por dia...............: 73,9%
-Teto do calendário............: 73,2% (média real de cada dia da semana)
-Sabendo as recargas do dia....: 83,0% (por exemplo, com agendamento)
+Modelo, por dia...............: 73,5%
+Teto do calendário............: 72,8% (média real de cada dia da semana)
+Sabendo as recargas do dia....: 82,6% (por exemplo, com agendamento)
 Modelo, por semana............: 86,9% (3 semanas de teste)
 O modelo já está no teto do que o calendário explica. O erro restante é a variação
 de quem recarrega e de quanto recarrega, que só dados da operação real reduzem.
@@ -567,13 +567,13 @@ Matriz de confusão..: [[23, 1], [8, 6]]
 PREVISÃO PARA OS PRÓXIMOS 7 DIAS
 Data        Dia       kWh previstos  Prob. sobrecarga  Risco   
 ------------------------------------------------------------------------------
-2026-10-11  domingo   24,00          14%               normal  
-2026-10-12  segunda   48,90          32%               normal  
-2026-10-13  terça     37,10          22%               normal  
-2026-10-14  quarta    43,20          39%               normal  
-2026-10-15  quinta    53,80          78%               ALTO    
-2026-10-16  sexta     35,40          28%               normal  
-2026-10-17  sábado    33,90          35%               normal  
+2026-10-11  domingo   23,80          14%               normal  
+2026-10-12  segunda   49,10          32%               normal  
+2026-10-13  terça     37,30          23%               normal  
+2026-10-14  quarta    43,40          39%               normal  
+2026-10-15  quinta    54,00          78%               ALTO    
+2026-10-16  sexta     35,50          29%               normal  
+2026-10-17  sábado    34,10          35%               normal  
 
     INTELIGÊNCIA ARTIFICIAL [Síndico Virtual em modo: simulado]
     0 - VOLTAR
@@ -594,12 +594,12 @@ Você: Teve algum problema este mês?
 Síndico Virtual [simulado]: Há 6 alerta(s). Os mais graves:
 - Apto 32: fatura 9019 de 08-2026 (R$ 176,86) vencida em 2026-10-01. Cartões da unidade bloqueados.
 - Risco de ultrapassar 10 kW no quadro em: quinta 2026-10-15 (78%).
-- Tentativa de recarga com cartão bloqueado em 2026-10-10 20:09: D4E5F6A7 no carregador GW-001.
+- Tentativa de recarga com cartão bloqueado em 2026-10-10 20:56: D4E5F6A7 no carregador GW-001.
 - Tentativa de recarga com cartão bloqueado em 2026-10-05 19:20: D4E5F6A7 no carregador GW-002.
 - 2026-10-08 / GW-002: sessões somam 24,44 kWh e o SEMS registra 25,54 kWh (diferença de 4,3%).
 
 Você: Qual a previsão de demanda?
-Síndico Virtual [simulado]: Previsão para os próximos 7 dias: 276,3 kWh no total (modelo Regressão Linear, R² 0,42, erro médio de 9,5 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
+Síndico Virtual [simulado]: Previsão para os próximos 7 dias: 277,2 kWh no total (modelo Regressão Linear, R² 0,42, erro médio de 9,6 kWh por dia). Dias com risco de passar de 10 kW no quadro: quinta 2026-10-15.
 
 Você: SAIR
 
@@ -655,12 +655,12 @@ Opção desejada...: 2
 Mês 10-2026 fechado com taxa de R$ 2,00.
 Fatura  Unidade   kWh       Taxa R$  Total R$   Status   
 ------------------------------------------------------------------------------
-9033    Apto 42   63,88     2,00     62,69      PENDING  
+9033    Apto 42   61,91     2,00     60,81      PENDING  
 9034    Apto 41   41,50     2,00     41,42      PENDING  
 9035    Apto 32   0,00      0,00     0,00       ISENTO   
 9036    Apto 31   25,12     2,00     25,86      PENDING  
 9037    Apto 22   54,76     2,00     54,02      PENDING  
-9038    Apto 21   75,59     2,00     73,81      PENDING  
+9038    Apto 21   74,22     2,00     72,51      PENDING  
 9039    Apto 12   28,71     2,00     29,27      PENDING  
 9040    Apto 11   18,84     2,00     19,90      PENDING  
 
@@ -684,11 +684,11 @@ Fatura  Unidade   Mês       Total R$   Vencimento
 ------------------------------------------------------------------------------
 9019    Apto 32   08-2026   176,86     2026-10-01  
 9027    Apto 32   09-2026   122,21     2026-10-31  
-9033    Apto 42   10-2026   62,69      2026-11-09  
+9033    Apto 42   10-2026   60,81      2026-11-09  
 9034    Apto 41   10-2026   41,42      2026-11-09  
 9036    Apto 31   10-2026   25,86      2026-11-09  
 9037    Apto 22   10-2026   54,02      2026-11-09  
-9038    Apto 21   10-2026   73,81      2026-11-09  
+9038    Apto 21   10-2026   72,51      2026-11-09  
 9039    Apto 12   10-2026   29,27      2026-11-09  
 9040    Apto 11   10-2026   19,90      2026-11-09  
 Número da fatura paga (0 cancela)...: 9019
@@ -713,11 +713,11 @@ FATURAS PENDENTES
 Fatura  Unidade   Mês       Total R$   Vencimento  
 ------------------------------------------------------------------------------
 9027    Apto 32   09-2026   122,21     2026-10-31  
-9033    Apto 42   10-2026   62,69      2026-11-09  
+9033    Apto 42   10-2026   60,81      2026-11-09  
 9034    Apto 41   10-2026   41,42      2026-11-09  
 9036    Apto 31   10-2026   25,86      2026-11-09  
 9037    Apto 22   10-2026   54,02      2026-11-09  
-9038    Apto 21   10-2026   73,81      2026-11-09  
+9038    Apto 21   10-2026   72,51      2026-11-09  
 9039    Apto 12   10-2026   29,27      2026-11-09  
 9040    Apto 11   10-2026   19,90      2026-11-09  
 Número da fatura paga (0 cancela)...: 9027

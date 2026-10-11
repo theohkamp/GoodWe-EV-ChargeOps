@@ -97,7 +97,6 @@ def fechar_mes(mes: str, com_taxa: bool, data_fechamento: str = "") -> dict:
     # consolidacao mensal: gera uma linha (fatura) por unidade do condominio
     if data_fechamento == "":
         data_fechamento = dados.hoje_texto()
-    faturas = dados.carregar_tabela("invoices")
     if len(dados.faturas_do_mes(mes)) > 0:
         return {"ok": False, "mensagem": f"O mês {mes} já foi fechado.",
                 "faturas": dados.faturas_do_mes(mes)}
@@ -109,10 +108,11 @@ def fechar_mes(mes: str, com_taxa: bool, data_fechamento: str = "") -> dict:
     vencimento = data + timedelta(days=config["dias_para_vencimento"])
 
     novas = []
+    numero = dados.proximo_id("invoices", dados.ID_INICIAL_FATURA)
     for unidade in dados.carregar_tabela("units"):
         calculo = calcular_fatura(unidade["id"], mes, tarifa, taxa, config["cobrar_taxa_sem_uso"])
         fatura = {
-            "id": dados.proximo_id(faturas, dados.ID_INICIAL_FATURA),
+            "id": numero,
             "unit_id": unidade["id"],
             "month": mes,
             "total_kwh": calculo["total_kwh"],
@@ -126,9 +126,9 @@ def fechar_mes(mes: str, com_taxa: bool, data_fechamento: str = "") -> dict:
             "vencimento": vencimento.strftime(dados.FORMATO_DATA),
             "pago_em": ""
         }
-        faturas.append(fatura)
         novas.append(fatura)
-    dados.salvar_tabela("invoices", faturas)
+        numero += 1
+    dados.inserir_varios("invoices", novas)
 
     if com_taxa:
         opcao = f"com taxa de {formato.reais(taxa)}"
@@ -142,27 +142,25 @@ def fechar_mes(mes: str, com_taxa: bool, data_fechamento: str = "") -> dict:
 def registrar_pagamento(invoice_id: int, data_pagamento: str = "") -> bool:
     if data_pagamento == "":
         data_pagamento = dados.hoje_texto()
-    faturas = dados.carregar_tabela("invoices")
-    for fatura in faturas:
-        if fatura["id"] == invoice_id and fatura["status"] == "PENDING":
-            fatura["status"] = "PAID"
-            fatura["pago_em"] = data_pagamento
-            dados.salvar_tabela("invoices", faturas)
-            dados.registrar_evento("PAGAMENTO_REGISTRADO",
-                                   f"fatura {invoice_id} ({formato.reais(fatura['total_value'])})",
-                                   data_pagamento + " 10:00")
-            return True
-    return False
+    fatura = dados.buscar_registro("invoices", "id", invoice_id)
+    # so uma fatura pendente pode ser paga
+    if fatura == {} or fatura["status"] != "PENDING":
+        return False
+    dados.marcar_fatura_paga(invoice_id, data_pagamento)
+    dados.registrar_evento("PAGAMENTO_REGISTRADO",
+                           f"fatura {invoice_id} ({formato.reais(fatura['total_value'])})",
+                           data_pagamento + " 10:00")
+    return True
 
 
 def auditar_fatura(invoice_id: int) -> dict:
     # auditoria compartilhada: refaz a conta a partir das sessoes gravadas
     # e compara com o valor armazenado. Gestor e morador usam esta mesma funcao.
-    fatura = dados.buscar(dados.carregar_tabela("invoices"), "id", invoice_id)
+    fatura = dados.buscar_registro("invoices", "id", invoice_id)
     if fatura == {}:
         return {"encontrada": False}
     config = dados.carregar_config()
-    unidade = dados.buscar(dados.carregar_tabela("units"), "id", fatura["unit_id"])
+    unidade = dados.buscar_registro("units", "id", fatura["unit_id"])
     # a taxa guardada na fatura diz se o fechamento foi com taxa ou sem taxa
     if fatura["status"] == "ISENTO":
         taxa = 0.0
@@ -227,17 +225,15 @@ def atualizar_bloqueios(hoje: str, data_hora: str = "") -> dict:
         if usuario == {}:
             continue
         novo_status = not unidade_inadimplente(usuario["unit_id"], hoje)
+        # so grava no banco quando o cartao muda de situacao
         if novo_status != cartao["status"]:
-            cartao["status"] = novo_status
+            dados.mudar_status_do_cartao(cartao["uid"], novo_status)
             if novo_status:
                 desbloqueados += 1
                 dados.registrar_evento("CARTAO_DESBLOQUEADO", cartao["uid"], data_hora)
             else:
                 bloqueados += 1
                 dados.registrar_evento("CARTAO_BLOQUEADO", cartao["uid"] + " (fatura vencida)", data_hora)
-    # so regrava o arquivo quando algum cartao mudou de situacao
-    if bloqueados + desbloqueados > 0:
-        dados.salvar_tabela("rfid_cards", cartoes)
     return {"bloqueados": bloqueados, "desbloqueados": desbloqueados}
 
 

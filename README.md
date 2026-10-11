@@ -4,7 +4,7 @@
 
 Este repositório é a entrega da Sprint 2: o protótipo funcional da solução definida na Sprint 1. A pesquisa, a arquitetura e o plano da Sprint 1 estão em [docs/sprint1_pesquisa.md](docs/sprint1_pesquisa.md).
 
-> **Escopo acadêmico.** Este é um trabalho acadêmico do 1º ano de Ciência da Computação. As escolhas técnicas ficaram dentro do conteúdo abordado no curso até aqui, o que impõe limites ao protótipo e explica parte dos desvios descritos na seção 6.
+> **Escopo acadêmico.** Este é um trabalho acadêmico do 1º ano de Ciência da Computação. As escolhas técnicas ficaram próximas do conteúdo abordado no curso até aqui, o que impõe limites ao protótipo e explica parte dos desvios descritos na seção 6.
 
 | Integrante | RM |
 |---|---|
@@ -23,6 +23,7 @@ O protótipo cobre o fluxo completo de uma recarga em condomínio, do cartão RF
 **RFID → Sessão iniciada → Energia medida (kWh) → Associação à unidade → Rateio → Painel e Insights**
 
 - **Sessões de recarga** registradas com as grandezas do carregador GoodWe GW7K-HCA: tensão, corrente, potência e energia.
+- **Banco de dados relacional** em SQLite, com as seis tabelas da Sprint 1 e chaves primárias e estrangeiras.
 - **Consumo individual** por unidade, somando todos os cartões RFID do apartamento.
 - **Rateio** pelo modelo da Sprint 1, `Fatura = Σ(E_sessao × T) + Tx_admin`, com fechamento mensal sem taxa ou com taxa administrativa.
 - **Consolidado mensal, auditoria da fatura e bloqueio automático** dos cartões de quem tem fatura vencida.
@@ -54,7 +55,7 @@ Os comandos são executados a partir da raiz do repositório.
 | Regerar os gráficos de evidência | `python src/gerar_evidencias.py` |
 | Notebook executado | `notebooks/evidencias_ev_chargeops.ipynb` |
 
-A base de demonstração já vem em `dados/`. Para recriá-la, use "Recriar a base de demonstração" no menu de simulação do console.
+O banco de dados (`dados/ev_chargeops.db`) é criado na primeira execução, já com a base de demonstração. Para recriá-la, use "Recriar a base de demonstração" no menu de simulação do console.
 
 **Síndico Virtual com LLM (opcional).** Sem configuração ele roda em modo simulado. Para usar o `gpt-4o-mini`, defina a chave antes de executar:
 
@@ -103,7 +104,18 @@ Fatura = Σ(E_sessao × T) + Tx_admin
 
 ### 3.4 Dados
 
-As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos, uma por arquivo JSON em `dados/`. Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00).
+As seis tabelas da Sprint 1 (`Unit`, `User`, `RFID_Card`, `Charger`, `Session`, `Invoice`) foram mantidas com os mesmos nomes de campos em um banco de dados relacional SQLite. O esquema está em [src/model/esquema.sql](src/model/esquema.sql). Os registros de exemplo do documento da Sprint 1 existem na base com os mesmos valores: Apto 42 / Torre A, João Silva, cartão `A1B2C3D4`, carregador `GW-001`, sessão `5001` (18/06/2026, 19:00 às 22:30, 21,5 kWh) e fatura `9001` (06-2026, 120,0 kWh, R$ 114,00).
+
+As relações da Sprint 1 são chaves estrangeiras, e o próprio banco recusa dados incoerentes: uma sessão de cartão não cadastrado ou duas faturas da mesma unidade no mesmo mês não são gravadas.
+
+| Operação | Como o banco resolve |
+|---|---|
+| Cartão → usuário → unidade | Junção (`JOIN`) entre `rfid_cards`, `users` e `units` |
+| Sessões de uma unidade no mês, base do rateio | `JOIN` com filtro de unidade e de período, em ordem de início |
+| Energia por dia e por carregador, usada na conciliação com o SEMS | `SUM` com `GROUP BY` |
+| Pagamento de fatura e bloqueio de cartão | `UPDATE` do registro, pela chave primária |
+
+A configuração (tarifa, taxa e limites) fica em `dados/config.json`, e o registro de eventos, em `dados/registros.txt`.
 
 Campos acrescentados ao esquema original:
 
@@ -191,7 +203,7 @@ O código segue o padrão MVC. As telas não contêm regra de negócio, e os mod
 
 ```
             VIEW                          CONTROLLER                         MODEL
-  src/view/view_web.py      ->   src/controller/controle_gestor.py   ->   src/model/dados.py            (6 tabelas em JSON)
+  src/view/view_web.py      ->   src/controller/controle_gestor.py   ->   src/model/dados.py            (banco SQLite, 6 tabelas)
   src/view/view_console.py  ->   src/controller/controle_morador.py  ->   src/model/rateio.py           (fórmula, fechamento, auditoria, bloqueio)
   src/view/graficos.py      ->   src/controller/controle_sessao.py   ->   src/model/telemetria.py       (carregador simulado, SEMS)
                                  src/controller/controle_ia.py       ->   src/model/alertas.py          (fila de prioridade)
@@ -205,9 +217,9 @@ Correspondência com o diagrama da Sprint 1 ([docs/Diagrama.svg](docs/Diagrama.s
 | Bloco da Sprint 1 | No protótipo |
 |---|---|
 | Carregador GoodWe e cartão RFID | `model/telemetria.py`, simulador do GW7K-HCA |
-| Gateway IoT local e plataforma SEMS+ | Leituras do simulador e `dados/sems_export.json`, com conciliação |
+| Gateway IoT local e plataforma SEMS+ | Leituras do simulador e tabela `sems_export`, com conciliação |
 | Camada de aplicação EV ChargeOps | `controller/` |
-| Banco de dados | `model/dados.py` e `dados/*.json` |
+| Banco de dados | SQLite: `model/esquema.sql` e `model/dados.py` |
 | Regras de rateio | `model/rateio.py` |
 | Módulos de IA | `model/ia_previsao.py` e `model/sindico_virtual.py` |
 | Painel do gestor e interface do morador | `view/view_web.py` e `view/view_console.py` |
@@ -218,33 +230,32 @@ GoodWe-EV-ChargeOps/
 ├── requirements.txt
 ├── link_repositorio.txt
 ├── docs/                          documento e diagrama da Sprint 1
-├── dados/                         base de demonstração (JSON, CSV e log)
+├── dados/                         banco SQLite (criado na primeira execução), configuração, CSV e log
 ├── src/
 │   ├── app_web.py                 entrada da interface web
 │   ├── main.py                    entrada do modo console
 │   ├── verificacao.py             plano de testes
 │   ├── gerar_evidencias.py        gráficos e conversa de demonstração
 │   ├── formato.py                 formatação de números e valores em reais
-│   ├── model/                     dados, rateio, telemetria, alertas, IA
+│   ├── model/                     esquema do banco, dados, rateio, telemetria, alertas, IA
 │   ├── controller/                gestor, morador, sessão, IA
 │   └── view/                      web, console e gráficos
 ├── notebooks/                     notebook executado
 └── evidencias/                    capturas de tela, gráficos e saídas
 ```
 
-Tecnologias: Python, pandas, NumPy, scikit-learn, matplotlib, Streamlit e a API da OpenAI (opcional).
+Tecnologias: Python, SQLite, pandas, NumPy, scikit-learn, matplotlib, Streamlit e a API da OpenAI (opcional).
 
 ---
 
 ## 6. Da Sprint 1 à Sprint 2
 
-**Mantido como planejado:** a fórmula do rateio, a tarifa única por kWh, a taxa administrativa opcional, as regras auxiliares, o esquema de seis tabelas, o ciclo de sessão IEC 61851 e as duas frentes de IA.
+**Mantido como planejado:** a fórmula do rateio, a tarifa única por kWh, a taxa administrativa opcional, as regras auxiliares, o banco de dados relacional com o esquema de seis tabelas, o ciclo de sessão IEC 61851 e as duas frentes de IA.
 
 ### Desvios e justificativas
 
 | Planejado na Sprint 1 | Implementado | Justificativa |
 |---|---|---|
-| Banco de dados relacional | Arquivos JSON, um por tabela, com os mesmos campos e chaves | O protótipo roda sem instalar nem configurar um servidor de banco. O acesso aos dados fica isolado em um módulo, então a troca por SQL não afeta as regras |
 | APIs REST de usuários e unidades | Controllers em Python, usados pelas duas interfaces e pelo Síndico Virtual | O protótipo é local e não tem cliente externo para consumir a API. Os controllers já expõem as mesmas operações e são o ponto em que a API seria publicada |
 | Decodificação Modbus via gateway IoT | Simulador do GW7K-HCA, com leituras por minuto | Sem acesso ao carregador fora do laboratório. O simulador produz as mesmas grandezas que a leitura Modbus entregaria |
 | Ingestão agendada do SEMS Portal | Export diário simulado e conciliação com erro absoluto e relativo | Sem credenciais da API do portal. A conciliação, que é o objetivo da integração, está implementada |
@@ -256,7 +267,7 @@ Tecnologias: Python, pandas, NumPy, scikit-learn, matplotlib, Streamlit e a API 
 
 | Fase planejada | Entregue |
 |---|---|
-| 1. Infraestrutura de dados | As seis tabelas com o mesmo esquema e os controllers de cadastro de unidade, usuário e cartão |
+| 1. Infraestrutura de dados | Banco de dados relacional (SQLite) com as seis tabelas do esquema, e os controllers de cadastro de unidade, usuário e cartão |
 | 2. Protocolos e telemetria | Simulador do carregador e conciliação diária com o export do SEMS |
 | 3. Regras financeiras e motores de IA | Rateio com fechamento mensal, auditoria e bloqueio; previsão de demanda e risco de sobrecarga; Síndico Virtual |
 | 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 51 cenários |
@@ -278,6 +289,8 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 
 - **MVC com duas interfaces.** Telas, coordenação e regras ficam separadas. A mesma função de rateio atende a interface web e o console.
 - **Interface responsiva.** A navegação fica no topo da página, e uma folha de estilo (`src/view/estilo.css`) ajusta margens, títulos e indicadores em telas pequenas.
+- **SQLite como banco relacional.** É um banco em arquivo que já acompanha o Python: o protótipo roda sem instalar nem configurar um servidor, e o esquema continua sendo SQL padrão.
+- **SQL em um único módulo.** Só `src/model/dados.py` contém comandos SQL. As outras camadas recebem listas de dicionários, então a troca por um servidor de banco fica restrita a esse módulo. Os valores entram nos comandos como parâmetros, nunca concatenados ao texto, o que evita injeção de SQL.
 - **Taxa administrativa por fechamento.** A Sprint 1 trata a taxa como opcional. A escolha é feita pelo gestor a cada fechamento, e a fatura registra a tarifa e a taxa aplicadas, o que mantém as faturas antigas auditáveis mesmo se a configuração mudar.
 - **Bloqueio conferido em três momentos.** Ao abrir o sistema, após cada pagamento e na autorização de cada sessão, para que o bloqueio não dependa de uma ação manual.
 - **Assistente ancorado em dados.** O Síndico Virtual não responde de memória: uma função consulta o sistema, e o modelo de linguagem só redige com o que recebeu. O modo simulado garante o funcionamento sem chave e sem internet.
@@ -332,7 +345,7 @@ Gráficos: [consumo_diario.png](evidencias/consumo_diario.png), [curva_carga_hor
 ## 9. Limitações e próximos passos
 
 - **Carregador e SEMS simulados.** O próximo passo é ler o equipamento real por Modbus/RS-485 e coletar os dados pela API do portal. A troca fica restrita ao módulo de telemetria.
-- **Persistência em arquivos.** Atende a um condomínio pequeno. Na base de demonstração as telas respondem em menos de 0,1 s; com volume maior, o esquema deve ir para um banco relacional.
+- **Banco em arquivo local.** O SQLite atende a um condomínio, com um único servidor de aplicação. Na base de demonstração as telas respondem em menos de 0,1 s. Para vários condomínios e muitos acessos simultâneos, o mesmo esquema deve ir para um servidor de banco de dados, como o PostgreSQL.
 - **Modelo preditivo.** Avaliado com quatro meses de dados sintéticos. A precisão diária precisa ser medida de novo com dados reais.
 - **Sessão registrada após o fechamento.** Aparece como divergência na auditoria; falta o fluxo de fatura complementar.
 - **Autenticação.** O protótipo permite escolher o perfil de gestor ou de morador sem senha.

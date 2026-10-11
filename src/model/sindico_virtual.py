@@ -194,7 +194,7 @@ def classificar_intencao(pergunta: str, unidade_padrao: dict) -> dict:
             modo = "LLM " + MODELO_LLM
             intencao = resposta["intencao"]
             if "unidade" in resposta and resposta["unidade"] is not None:
-                achada = dados.buscar(dados.carregar_tabela("units"), "name", resposta["unidade"])
+                achada = dados.buscar_registro("units", "name", resposta["unidade"])
                 if achada != {}:
                     unidade = achada
             if "mes" in resposta and resposta["mes"] in dados.meses_com_sessoes():

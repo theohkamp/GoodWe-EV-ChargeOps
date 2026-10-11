@@ -83,23 +83,23 @@ def criar_cadastros() -> None:
     unidades = []
     for i in range(len(UNIDADES)):
         unidades.append({"id": i + 1, "name": UNIDADES[i][0], "block": UNIDADES[i][1]})
-    dados.salvar_tabela("units", unidades)
+    dados.inserir_varios("units", unidades)
 
     usuarios = []
     for i in range(len(USUARIOS)):
         usuarios.append({"id": dados.ID_INICIAL_USUARIO + i, "unit_id": USUARIOS[i][0],
                          "name": USUARIOS[i][1], "email": USUARIOS[i][2]})
-    dados.salvar_tabela("users", usuarios)
+    dados.inserir_varios("users", usuarios)
 
     cartoes = []
     for cartao in CARTOES:
         cartoes.append({"uid": cartao[0], "user_id": cartao[1], "status": True})
-    dados.salvar_tabela("rfid_cards", cartoes)
+    dados.inserir_varios("rfid_cards", cartoes)
 
     carregadores = []
     for c in CARREGADORES:
         carregadores.append({"id": c[0], "model": c[1], "max_power_kw": c[2], "location": c[3]})
-    dados.salvar_tabela("chargers", carregadores)
+    dados.inserir_varios("chargers", carregadores)
 
 
 # ----- SUBALGORITMOS DO HISTORICO DE SESSOES
@@ -249,8 +249,7 @@ def gerar_base() -> dict:
     random.seed(SEMENTE)
 
     # 1) zera as tabelas e grava a configuracao padrao
-    for nome in ("units", "users", "rfid_cards", "chargers", "sessions", "invoices", "sems_export"):
-        dados.salvar_tabela(nome, [])
+    dados.esvaziar_tabelas()
     dados.salvar_config(dados.CONFIG_PADRAO.copy())
     dados.limpar_eventos()
     dados.registrar_evento("BASE_CRIADA", "base de demonstração", DATA_INICIAL + " 00:00")
@@ -258,8 +257,8 @@ def gerar_base() -> dict:
     # 2) cadastros e historico de sessoes
     criar_cadastros()
     sessoes = gerar_sessoes()
-    dados.salvar_tabela("sessions", sessoes)
-    dados.salvar_tabela("sems_export", gerar_export_sems(sessoes))
+    dados.inserir_varios("sessions", sessoes)
+    dados.inserir_varios("sems_export", gerar_export_sems(sessoes))
 
     # 3) fechamentos mensais (sem taxa) e pagamentos
     for linha in FECHAMENTOS:

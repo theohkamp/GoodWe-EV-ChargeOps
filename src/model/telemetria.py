@@ -16,7 +16,7 @@ from model import rateio
 # ----- SUBALGORITMOS DE AUTORIZACAO (ESTADO B)
 def carregador_livre(charger_id: str, inicio_texto: str) -> bool:
     # o carregador esta ocupado se existe sessao com inicio <= momento < fim
-    for sessao in dados.filtrar(dados.carregar_tabela("sessions"), "charger_id", charger_id):
+    for sessao in dados.filtrar_registros("sessions", "charger_id", charger_id):
         if sessao["start_time"] <= inicio_texto and inicio_texto < sessao["end_time"]:
             return False
     return True
@@ -24,7 +24,7 @@ def carregador_livre(charger_id: str, inicio_texto: str) -> bool:
 
 def autorizar_cartao(uid: str, charger_id: str, inicio_texto: str) -> dict:
     # equivalente ao Authorize.req / Authorize.conf do OCPP
-    cartao = dados.buscar(dados.carregar_tabela("rfid_cards"), "uid", uid)
+    cartao = dados.buscar_registro("rfid_cards", "uid", uid)
     if cartao == {}:
         return {"autorizado": False, "motivo": "cartão não cadastrado", "unidade": {}}
     unidade = dados.unidade_do_cartao(uid)
@@ -49,7 +49,7 @@ def autorizar_cartao(uid: str, charger_id: str, inicio_texto: str) -> dict:
 def proximo_horario_livre(charger_id: str) -> str:
     # agora, ou o fim da ultima sessao se o carregador ainda estiver ocupado
     momento = dados.agora_texto()
-    for sessao in dados.filtrar(dados.carregar_tabela("sessions"), "charger_id", charger_id):
+    for sessao in dados.filtrar_registros("sessions", "charger_id", charger_id):
         if sessao["end_time"] > momento:
             momento = sessao["end_time"]
     return momento
@@ -196,13 +196,10 @@ def simular_sessao(uid: str, charger_id: str, inicio_texto: str, duracao_min: in
 # ----- SUBALGORITMOS DE CONCILIACAO COM O SEMS PORTAL
 def energia_por_dia_e_carregador(mes: str) -> dict:
     # chave "AAAA-MM-DD|carregador" -> soma dos kWh das sessoes iniciadas no dia
+    # a soma por dia e por carregador e feita pelo banco (SUM com GROUP BY)
     tabela = {}
-    for sessao in dados.sessoes_do_mes(mes):
-        dia = sessao["start_time"].split(" ")[0]
-        chave = dia + "|" + sessao["charger_id"]
-        if chave not in tabela:
-            tabela[chave] = 0.0
-        tabela[chave] += sessao["kwh_delivered"]
+    for linha in dados.energia_por_dia(mes):
+        tabela[linha["dia"] + "|" + linha["charger_id"]] = linha["kwh"]
     return tabela
 
 

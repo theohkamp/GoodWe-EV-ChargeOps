@@ -48,7 +48,7 @@ def perguntar(pergunta: str, unit_id: int, historico: list) -> dict:
     # unit_id = 0 quando quem pergunta e o gestor (sem unidade padrao)
     unidade = {}
     if unit_id != 0:
-        unidade = dados.buscar(dados.carregar_tabela("units"), "id", unit_id)
+        unidade = dados.buscar_registro("units", "id", unit_id)
     return sindico_virtual.responder(pergunta, unidade, historico)
 
 

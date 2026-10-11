@@ -14,7 +14,7 @@ def listar_unidades() -> list:
 
 
 def buscar_unidade(unit_id: int) -> dict:
-    return dados.buscar(dados.carregar_tabela("units"), "id", unit_id)
+    return dados.buscar_registro("units", "id", unit_id)
 
 
 def cartoes_da_unidade(unit_id: int) -> list:
