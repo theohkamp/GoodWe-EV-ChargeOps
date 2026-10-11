@@ -133,8 +133,12 @@ Recriando a base de demonstração...
         esperado: 7 | obtido: 7
 [OK] modelo de risco treinado
         esperado: True | obtido: True
+[OK] histórico da previsão usa só dias completos: a sessão de hoje fica fora
+        esperado: 131 | obtido: 131
+[OK] intervalo sem coleta encerra o histórico da previsão
+        esperado: 2026-06-02 | obtido: 2026-06-02
 [OK] análise do limite: precisão por dia igual à precisão estimada do modelo
-        esperado: 0.725 | obtido: 0.725
+        esperado: 0.743 | obtido: 0.743
 [OK] análise do limite: as quatro precisões ficam entre 0 e 1
         esperado: True | obtido: True
 [OK] precisão de uma previsão perfeita
@@ -157,7 +161,7 @@ Recriando a base de demonstração...
 ------------------------------------------------------------------------------
 RESULTADO
 ------------------------------------------------------------------------------
-Cenários OK.......: 51
+Cenários OK.......: 53
 Cenários com falha: 0
 
 Recriando a base de demonstração para deixar os dados limpos...

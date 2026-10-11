@@ -1,5 +1,7 @@
 # EV ChargeOps — Enterprise Challenge 2026 (GoodWe + FIAP)
 
+[![Testes](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions/workflows/testes.yml/badge.svg)](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions/workflows/testes.yml)
+
 **Gestão inteligente de recargas compartilhadas.** Cada sessão de recarga vira uma cobrança justa, auditável e inteligente.
 
 Este repositório é a entrega da Sprint 2: o protótipo funcional da solução definida na Sprint 1. A pesquisa, a arquitetura e o plano da Sprint 1 estão em [docs/sprint1_pesquisa.md](docs/sprint1_pesquisa.md).
@@ -51,11 +53,13 @@ Os comandos são executados a partir da raiz do repositório.
 |---|---|
 | Interface web (gestor e morador) | `streamlit run src/app_web.py` |
 | Modo console | `python src/main.py` |
-| Plano de testes, 51 cenários | `python src/verificacao.py` |
+| Plano de testes, 53 cenários | `python src/verificacao.py` |
 | Regerar os gráficos de evidência | `python src/gerar_evidencias.py` |
 | Notebook executado | `notebooks/evidencias_ev_chargeops.ipynb` |
 
 O banco de dados (`dados/ev_chargeops.db`) é criado na primeira execução, já com a base de demonstração. Para recriá-la, use "Recriar a base de demonstração" no menu de simulação do console.
+
+O plano de testes também roda sozinho no GitHub a cada envio de código. O resultado aparece no selo do topo desta página e na [aba Actions](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions).
 
 **Síndico Virtual com LLM (opcional).** Sem configuração ele roda em modo simulado. Para usar o `gpt-4o-mini`, defina a chave antes de executar:
 
@@ -137,7 +141,7 @@ A IA faz parte do fluxo principal. A previsão alimenta o alerta de sobrecarga e
 
 Arquivo: `src/model/ia_previsao.py`.
 
-1. **Série diária** da energia entregue, uma linha por dia.
+1. **Série diária** da energia entregue, uma linha por dia. Entram só dias completos e contínuos: o dia corrente fica fora, e um intervalo de mais de dois dias sem nenhuma sessão é tratado como falta de coleta, não como consumo zero.
 2. **Entradas:** tendência, dia da semana (uma coluna 0/1 por dia), energia do dia anterior e média dos 7 dias anteriores.
 3. **Avaliação temporal:** treino nos primeiros 80% dos dias e teste nos 20% finais.
 4. **Modelos comparados:** regressão linear múltipla e Ridge, com `alpha` escolhido por validação cruzada. Fica o de menor RMSE no teste.
@@ -226,6 +230,7 @@ Correspondência com o diagrama da Sprint 1 ([docs/Diagrama.svg](docs/Diagrama.s
 
 ```
 GoodWe-EV-ChargeOps/
+├── .github/workflows/testes.yml   plano de testes executado a cada envio
 ├── README.md
 ├── requirements.txt
 ├── link_repositorio.txt
@@ -270,7 +275,7 @@ Tecnologias: Python, SQLite, pandas, NumPy, scikit-learn, matplotlib, Streamlit 
 | 1. Infraestrutura de dados | Banco de dados relacional (SQLite) com as seis tabelas do esquema, e os controllers de cadastro de unidade, usuário e cartão |
 | 2. Protocolos e telemetria | Simulador do carregador e conciliação diária com o export do SEMS |
 | 3. Regras financeiras e motores de IA | Rateio com fechamento mensal, auditoria e bloqueio; previsão de demanda e risco de sobrecarga; Síndico Virtual |
-| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 51 cenários |
+| 4. Interfaces e validação | Interface web com sete páginas, modo console e plano de testes com 53 cenários, executado automaticamente a cada envio |
 
 ### Indicadores definidos na Sprint 1
 
@@ -297,6 +302,7 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 - **Avaliação temporal do modelo.** Treino no passado e teste no futuro, sem embaralhar os dias. O resultado é reportado junto com o limite dos dados.
 - **Base reproduzível.** Gerador com semente fixa, para que testes, gráficos e métricas se repitam em qualquer máquina.
 - **Tratamento de falhas externas.** Entradas do usuário são validadas antes do uso. A chamada à API da OpenAI tem limite de espera e cai para o modo simulado em caso de erro.
+- **Testes automáticos a cada envio.** Um fluxo do GitHub Actions instala as dependências em uma máquina limpa e executa o plano de testes. O script devolve código de erro quando um cenário falha, e o envio fica marcado como reprovado.
 
 ---
 
@@ -304,7 +310,8 @@ Os indicadores também aparecem na página inicial da interface web e no menu do
 
 | Evidência | Arquivo |
 |---|---|
-| Plano de testes, 51 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
+| Plano de testes, 53 cenários com resultado esperado e obtido | [evidencias/verificacao_saida.txt](evidencias/verificacao_saida.txt) |
+| Execução automática do plano de testes a cada envio | [Aba Actions do repositório](https://github.com/theohkamp/GoodWe-EV-ChargeOps/actions) |
 | Sessão completa no console: gestor, morador, simulação e IA | [evidencias/console_demonstracao.txt](evidencias/console_demonstracao.txt) |
 | Notebook executado, com tabelas e gráficos | [notebooks/evidencias_ev_chargeops.ipynb](notebooks/evidencias_ev_chargeops.ipynb) |
 | Conversa com o Síndico Virtual | [evidencias/demo_sindico_virtual.txt](evidencias/demo_sindico_virtual.txt) |
