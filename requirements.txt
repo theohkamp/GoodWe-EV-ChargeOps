@@ -1,5 +1,5 @@
-# Versao minima: a testada no Python 3.10. Limite superior: a proxima versao principal,
-# que pode mudar o comportamento das bibliotecas.
+# Versao minima: a testada no Python 3.10. Limite superior: a primeira versao principal
+# ainda nao testada, que pode mudar o comportamento da biblioteca.
 numpy>=2.2,<3
 pandas>=2.3,<4
 matplotlib>=3.10,<4

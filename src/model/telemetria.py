@@ -176,7 +176,7 @@ def simular_sessao(uid: str, charger_id: str, inicio_texto: str, duracao_min: in
                    "detalhe": f"Sessão {sessao['id']} associada a {unidade['name']} / {unidade['block']}."})
 
     # ETAPA 5 - RATEIO (E_sessao x T; a taxa entra no fechamento do mes)
-    valor = round(resumo["kwh"] * config["tarifa_kwh"], 2)
+    valor = rateio.calcula_total(resumo["kwh"], config["tarifa_kwh"], 0.0)
     etapas.append({"numero": 5, "nome": "Rateio",
                    "detalhe": f"{formato.decimal(resumo['kwh'], 2)} kWh x {formato.reais(config['tarifa_kwh'])} = {formato.reais(valor)}. "
                               f"A taxa administrativa, quando ativada, entra no fechamento do mês."})
@@ -188,7 +188,7 @@ def simular_sessao(uid: str, charger_id: str, inicio_texto: str, duracao_min: in
         kwh_mes += registro["kwh_delivered"]
     etapas.append({"numero": 6, "nome": "Painel e Insights",
                    "detalhe": f"{unidade['name']} acumula {formato.decimal(kwh_mes, 2)} kWh em {mes} "
-                              f"({formato.reais(kwh_mes * config['tarifa_kwh'])} de consumo)."})
+                              f"({formato.reais(rateio.calcula_total(kwh_mes, config['tarifa_kwh'], 0.0))} de consumo)."})
 
     return {"autorizado": True, "etapas": etapas, "leituras": leituras, "sessao": sessao}
 

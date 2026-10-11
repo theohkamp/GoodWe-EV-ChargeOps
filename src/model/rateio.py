@@ -13,7 +13,8 @@ from model import dados
 
 # ----- SUBALGORITMOS DA FORMULA
 def calcula_total(kwh: float, tarifa: float, taxa_admin: float) -> float:
-    # a formula pura da Sprint 1, usada por todo o sistema
+    # a formula da Sprint 1 para um total de kWh. Com taxa zero, devolve o valor do consumo.
+    # Toda conta "kWh x tarifa" do sistema passa por aqui.
     return round(kwh * tarifa + taxa_admin, 2)
 
 
@@ -26,7 +27,7 @@ def taxa_do_fechamento(config: dict, com_taxa: bool) -> float:
 
 def comparar_com_e_sem_taxa(kwh: float, tarifa: float, taxa_admin: float) -> dict:
     # as duas opcoes partem do mesmo consumo, ja arredondado em centavos
-    consumo = round(kwh * tarifa, 2)
+    consumo = calcula_total(kwh, tarifa, 0.0)
     return {
         "kwh": kwh,
         "tarifa": tarifa,
@@ -49,7 +50,7 @@ def detalhar_sessoes(sessoes: list, tarifa: float) -> list:
             "cartao": sessao["rfid_uid"],
             "carregador": sessao["charger_id"],
             "kwh": sessao["kwh_delivered"],
-            "valor": round(sessao["kwh_delivered"] * tarifa, 2),
+            "valor": calcula_total(sessao["kwh_delivered"], tarifa, 0.0),
             "interrompida": sessao["interrompida"]
         })
     return detalhe
@@ -258,7 +259,7 @@ def consumo_por_unidade(mes: str) -> list:
             "bloco": unidade["block"],
             "sessoes": quantidade,
             "kwh": round(kwh, 2),
-            "consumo_rs": round(kwh * config["tarifa_kwh"], 2)
+            "consumo_rs": calcula_total(kwh, config["tarifa_kwh"], 0.0)
         })
     return dados.ordenar(linhas, "kwh", True)
 

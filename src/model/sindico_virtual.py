@@ -222,7 +222,8 @@ def ferramenta_consumo(unidade: dict, mes: str) -> dict:
             interrompidas += 1
     return {"unidade": unidade["name"], "mes": mes, "sessoes": len(sessoes),
             "kwh": round(kwh, 2), "tarifa": config["tarifa_kwh"],
-            "consumo_rs": round(kwh * config["tarifa_kwh"], 2), "interrompidas": interrompidas}
+            "consumo_rs": rateio.calcula_total(kwh, config["tarifa_kwh"], 0.0),
+            "interrompidas": interrompidas}
 
 
 def ferramenta_fatura(unidade: dict, mes: str) -> dict:

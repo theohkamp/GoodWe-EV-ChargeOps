@@ -34,7 +34,7 @@ def painel_da_unidade(unit_id: int, mes: str) -> dict:
         "tarifa": config["tarifa_kwh"],
         "sessoes": rateio.detalhar_sessoes(sessoes, config["tarifa_kwh"]),
         "kwh": round(kwh, 2),
-        "consumo_rs": round(kwh * config["tarifa_kwh"], 2),
+        "consumo_rs": rateio.calcula_total(kwh, config["tarifa_kwh"], 0.0),
         "cartoes": cartoes_da_unidade(unit_id),
         "inadimplente": rateio.unidade_inadimplente(unit_id, dados.hoje_texto()),
         "tem_fatura": False,
