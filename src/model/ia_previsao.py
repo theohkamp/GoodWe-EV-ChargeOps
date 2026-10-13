@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - IA frente 1: previsao de demanda e deteccao de padroes
 Problema..: Usar o historico de sessoes para prever a demanda diaria (regressao),
             estimar o risco de sobrecarga do quadro eletrico (regressao logistica)

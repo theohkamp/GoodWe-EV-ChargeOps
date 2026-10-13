@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: EV ChargeOps - interface web
 Problema..: Ponto de entrada do painel web (gestor e morador).
             Executar a partir da raiz do repositorio:  streamlit run src/app_web.py

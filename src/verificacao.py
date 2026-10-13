@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: Plano de testes do protótipo (esperado x obtido)
 Problema..: Conferir as regras da Sprint 1 com cenarios de resultado conhecido.
             Executar a partir da raiz do repositorio:  python src/verificacao.py

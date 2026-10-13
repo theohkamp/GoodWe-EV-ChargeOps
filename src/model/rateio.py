@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - regras de rateio e cobranca
 Problema..: Aplicar o modelo pay-per-use da Sprint 1:
             Fatura = soma(E_sessao x T) + Tx_admin

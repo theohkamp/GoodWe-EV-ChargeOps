@@ -4,7 +4,6 @@
 
 | [Pedro Matteo Benta dos Santos Simplicio] | RM573133 |
 | [Christian Theodor Heisterkamp]           | RM571998 |
-| [Felippe Santos Roeder]                   | RM571913 |
 | [Samuel Gissi Nogueira Gonçalves]         | RM568867 |
 | [Matheus Freitas da Silva Santos]         | RM574003 |
 

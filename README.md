@@ -12,7 +12,6 @@ Este repositório é a entrega da Sprint 2: o protótipo funcional da solução 
 |---|---|
 | Pedro Matteo Benta dos Santos Simplicio | RM573133 |
 | Christian Theodor Heisterkamp | RM571998 |
-| Felippe Santos Roeder | RM571913 |
 | Samuel Gissi Nogueira Gonçalves | RM568867 |
 | Matheus Freitas da Silva Santos | RM574003 |
 
@@ -377,3 +376,9 @@ Gráficos: [consumo_diario.png](evidencias/consumo_diario.png), [curva_carga_hor
 Ferramentas de IA generativa foram usadas durante o desenvolvimento, para gerar e revisar trechos de código e de documentação, como o enunciado permite. As decisões de arquitetura e de regra de negócio estão descritas nas seções 6 e 7.
 
 O sistema não depende de IA externa para funcionar. Sem chave de API ele roda completo, com o Síndico Virtual em modo simulado; o rateio, a telemetria, os alertas e a previsão de demanda rodam localmente.
+
+## 11. Histórico de commits
+
+Os commits da Sprint 2 aparecem concentrados em 10 e 11/10/2026, com datas muito próximas entre si. Isso não significa que o protótipo foi desenvolvido nesses dois dias.
+
+O código foi desenvolvido localmente, na máquina da equipe, e durante esse período não estava sendo enviado ao GitHub. Antes do envio, o trabalho foi organizado em commits por tema (modelo de dados, rateio, telemetria, IA, interfaces, testes e documentação), para que o histórico mostre como o sistema está dividido. Quando o push foi feito, todos esses commits chegaram ao repositório de uma só vez, e por isso as datas ficam agrupadas.

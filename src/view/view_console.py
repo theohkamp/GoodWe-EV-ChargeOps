@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: VIEW - interface de console (menus de terminal)
 Problema..: Exibir menus, ler as escolhas do usuario e mostrar os resultados.
             Esta camada so conversa com os controllers; nenhuma regra de negocio aqui.

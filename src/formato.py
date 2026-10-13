@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: Funcoes de formatacao usadas pelas tres camadas (model, view, controller)
 Problema..: Escrever numeros e valores em reais do jeito brasileiro (virgula decimal)
 """

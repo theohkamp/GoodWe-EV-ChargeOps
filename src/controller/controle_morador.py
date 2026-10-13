@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: CONTROLLER - acoes do morador
 Problema..: Montar o painel de uma unidade: consumo, sessoes, fatura auditada
             e situacao dos cartoes RFID

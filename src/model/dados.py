@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - camada de dados (banco de dados SQLite)
 Problema..: Guardar e consultar as seis tabelas definidas na Sprint 1
             (Unit, User, RFID_Card, Charger, Session, Invoice)

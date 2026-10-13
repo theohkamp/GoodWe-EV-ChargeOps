@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - IA frente 2: Sindico Virtual (agente conversacional)
 Problema..: Responder em linguagem natural a perguntas sobre consumo, cobranca,
             anomalias e previsao, usando somente os dados reais do sistema.

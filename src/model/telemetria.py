@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - telemetria simulada do carregador GoodWe GW7K-HCA
 Problema..: Reproduzir o ciclo de uma sessao de recarga (IEC 61851-1, estados A, B e C)
             gerando as mesmas grandezas que o gateway Modbus entregaria:

@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: Geracao das evidencias de funcionamento
 Problema..: Salvar na pasta evidencias/ os graficos em PNG e uma conversa de
             demonstracao com o Sindico Virtual.

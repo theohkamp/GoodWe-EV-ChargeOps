@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: VIEW - interface web (Streamlit)
 Problema..: Painel web do gestor e interface do morador previstos na Sprint 1.
             Cada pagina e uma funcao que chama os controllers e desenha o resultado.

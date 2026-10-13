@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: CONTROLLER - acoes do gestor (sindico / administradora)
 Problema..: Receber os pedidos das telas (console e web), acionar os modelos
             e devolver os dados prontos para exibicao. Nenhum print ou input aqui.

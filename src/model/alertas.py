@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - alertas com fila de prioridade (heap maximo)
 Problema..: Reunir as anomalias do condominio e entregar primeiro as mais graves
 """

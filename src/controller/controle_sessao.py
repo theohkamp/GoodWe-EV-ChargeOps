@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: CONTROLLER - sessoes de recarga e base de demonstracao
 Problema..: Disparar a simulacao de uma sessao no carregador e (re)criar a base
 """

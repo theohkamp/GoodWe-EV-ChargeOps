@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: CONTROLLER - inteligencia artificial
 Problema..: Ligar as telas as duas frentes de IA: previsao de demanda e Sindico Virtual
 """

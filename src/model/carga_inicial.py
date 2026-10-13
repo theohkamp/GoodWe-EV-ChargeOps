@@ -1,5 +1,5 @@
 """
-Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM571913, RM568867, RM574003)
+Autor.....: Equipe EV ChargeOps (RM573133, RM571998, RM568867, RM574003)
 Assunto...: MODEL - base de demonstracao (dados sinteticos)
 Problema..: Criar um condominio de exemplo com historico de recargas de junho a
             outubro de 2026, mantendo os registros de exemplo do README da Sprint 1
